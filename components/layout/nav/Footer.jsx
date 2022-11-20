@@ -20,7 +20,7 @@ export default function Footer() {
               <div className="text-sm text-blueGray-500 font-semibold py-1">
                 Copyright © {new Date().getFullYear()} Recipes App by{" "}
                 <a
-                  href="https://www.maryoctav.com/" target="_blank"
+                  href="https://www.maryoctav.com/" target="_blank" rel="noreferrer"
                   className="text-blueGray-500 hover:text-blueGray-800"
                 >
                   MaryOctav Ltd
