@@ -86,7 +86,7 @@ const Recipes = ({ recipes }) => {
         <Button btnText="Desserts" handleClick={() => handleCategory("dessert")} className={`${recipeCategory === "dessert" ? 'bg-violet-700':''}`} />
       </div> */}
 
-      <div className='w-full h-screen relative'>
+      <div className='w-full min-h-screen relative'>
         <AnimatePresence>
           {searchIsLoading && <Preloader framerOpacity={1} classNameOpacity="" />}
         </AnimatePresence>
