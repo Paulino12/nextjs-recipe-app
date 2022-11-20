@@ -68,7 +68,7 @@ const OneRecipe = ({ data, preview }) => {
                         alt={data?.recipe.name} />
                     </div>
                     <div className='w-full px-3 md:px-5 md:w-3/4'>
-                        <h1>By {recipe.author?.name}</h1>
+                        <h1>By {data?.recipe.author?.name}</h1>
                         <div className='flex flex-row gap-10 mt-3'>
                             <div className='rounded-2xl bg-yellow-400 font-bold px-3 py-1'>
                                 <AccessTimeIcon />
