@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  scroll-behavior: smooth;
 }
 
 a {
@@ -24,3 +25,31 @@ a {
     background: black;
   }
 }
+
+.recipe-card:hover img {
+  transform: scale(1.1)
+}
+
+
+
+@layer base {
+  ul li {
+    @apply list-disc;
+    @apply list-inside;
+  }
+
+  ol li {
+    @apply list-decimal;
+    @apply list-inside;
+  }
+}
+
+@layer components {
+  .recipe-inner-heading {
+    @apply font-bold underline;
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
