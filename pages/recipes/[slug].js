@@ -50,7 +50,7 @@ const OneRecipe = ({ data, preview }) => {
             <div className="flex flex-col items-center justify-center text-center">
                 <div className="w-full lg:w-6/12 px-4 relative">
                     <h2 className="text-4xl pb-3 font-semibold capitalize">
-                        {recipe.name}
+                        {data?.recipe.name}
                     </h2>
                     <div className='absolute bottom-0.5 left-0 border-b w-full bg-gray-400'></div>
                     <div className='absolute bottom-0 left-0 right-0 mx-auto h-1.5 w-14 lg:w-16 bg-yellow-400'></div>
@@ -65,38 +65,38 @@ const OneRecipe = ({ data, preview }) => {
                         <img 
                         src={urlFor(data?.recipe?.image).url()} 
                         className='h-48 w-1/2 mx-auto md:mx-0 md:w-full rounded-lg'
-                        alt={recipe.name} />
+                        alt={data?.recipe.name} />
                     </div>
                     <div className='w-full px-3 md:px-5 md:w-3/4'>
                         <h1>By {recipe.author?.name}</h1>
                         <div className='flex flex-row gap-10 mt-3'>
                             <div className='rounded-2xl bg-yellow-400 font-bold px-3 py-1'>
                                 <AccessTimeIcon />
-                                <small className='ml-1'>{`${recipe.time?.timeFrame} ${recipe.time?.timeUnit}`}</small>
+                                <small className='ml-1'>{`${data?.recipe.time?.timeFrame} ${data?.recipe.time?.timeUnit}`}</small>
                             </div>
                             <div className='flex items-center justify-center'>
-                                <small className='rounded-2xl bg-yellow-400 px-2 font-bold text-lg'>{recipe.dietary}</small>
+                                <small className='rounded-2xl bg-yellow-400 px-2 font-bold text-lg'>{data?.recipe.dietary}</small>
                             </div>
                             <div className='rounded-2xl bg-yellow-400 font-bold px-3 py-1'>
                                 <LocalDiningIcon />
-                                <small className='ml-1'>{`Serves ${recipe.numberOfServes}`}</small>
+                                <small className='ml-1'>{`Serves ${data?.recipe.numberOfServes}`}</small>
                             </div>
                             
                         </div>
                         <div className='mt-3 flex flex-col md:flex-row md:gap-6'>
                             <h1 className='recipe-inner-heading'>Category:</h1> 
-                            <p className='capitalize'>{recipe.category}</p>
+                            <p className='capitalize'>{data?.recipe.category}</p>
                             
                         </div>
                         <div className='mt-3 flex flex-col md:flex-row md:gap-6'>
                             {
-                                !recipe.allergens?.length ? 
+                                !data?.recipe.allergens?.length ? 
                                 <h1 className='recipe-inner-heading'>No Allergens</h1> 
                                 :
                                 <h1 className='recipe-inner-heading'>Allergens:</h1>
                             }
                             {
-                                recipe.allergens?.map((allergen) => (
+                                data?.recipe.allergens?.map((allergen) => (
                                     <div key={allergen._key}>
                                         <span className='mr-1 animate-pulse'><CheckIcon fontSize='sm' color='warning' /></span>
                                         {allergen.allergen}
@@ -113,7 +113,7 @@ const OneRecipe = ({ data, preview }) => {
                         <h1 className='recipe-inner-heading'>Ingredients:</h1>
                         <div>
                             {
-                                recipe.ingredients?.map((ingredient, index) => (
+                                data?.recipe.ingredients?.map((ingredient, index) => (
                                     <div key={index} className='flex flex-row align-baseline'>
                                         <span className='mr-1'><CheckIcon fontSize='sm' color='success' /></span>
                                         <div className='divt-none'>
