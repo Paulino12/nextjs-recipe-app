@@ -5,7 +5,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { 
     sanityClient, urlFor, usePreviewSubscription, PortableText
  } from '../../lib/sanity'
-import recipes from '../../sanity-recipes/schemas/recipes'
 
 const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
     _id,
@@ -150,7 +149,7 @@ export async function getStaticPaths() {
 
     return {
         paths,
-        fallback: true
+        fallback: false
     }
 }
 

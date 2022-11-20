@@ -90,7 +90,7 @@ const Recipes = ({ recipes }) => {
         <AnimatePresence>
           {searchIsLoading && <Preloader framerOpacity={1} classNameOpacity="" />}
         </AnimatePresence>
-        <AnimatePresence exitBeforeEnter>
+        <AnimatePresence mode='wait'>
           <motion.div 
           key={recipeCategory}
           initial={{ opacity: 0 }}
