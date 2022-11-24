@@ -37,7 +37,8 @@ const recipeQuery = `*[_type == "recipes"]{
 export async function getStaticProps() {
   const recipes = await sanityClient.fetch(recipeQuery)
   return {
-    props: { recipes }
+    props: { recipes },
+    revalidate: 30
   }
 }
 
