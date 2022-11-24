@@ -67,7 +67,7 @@ const OneRecipe = ({ data, preview }) => {
                         className='h-48 w-1/2 mx-auto md:mx-0 md:w-full rounded-lg'
                         alt={data?.recipe.name} />
                     </div>
-                    <div className='w-full px-3 md:px-5 md:w-3/4'>
+                    <div className='w-full px-3 md:px-8 md:w-3/4'>
                         <h1>By {data?.recipe.author?.name}</h1>
                         <div className='flex flex-row gap-10 mt-3'>
                             <div className='rounded-2xl bg-yellow-400 font-bold px-3 py-1'>
@@ -105,7 +105,6 @@ const OneRecipe = ({ data, preview }) => {
                             }
                         </div>
                     </div>
-                    
                 </div>
                 
                 <div className='flex flex-col md:flex-row w-full md:w-3/4 md:mx-auto mt-3'>
@@ -125,7 +124,7 @@ const OneRecipe = ({ data, preview }) => {
                         </div>
                     </div>
                     
-                    <div className='w-full px-3 mt-3 md:mt-0 md:px-5 md:w-3/4'>
+                    <div className='w-full px-3 mt-3 md:mt-0 md:px-8 md:w-3/4'>
                         <h1 className='recipe-inner-heading'>Instructions:</h1>
                         <PortableText value={data?.recipe?.method} />
                     </div>
