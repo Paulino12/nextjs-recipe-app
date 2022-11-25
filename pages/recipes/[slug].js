@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
 import CheckIcon from '@mui/icons-material/Check'
 import LocalDiningIcon from '@mui/icons-material/LocalDining'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
@@ -30,8 +29,6 @@ const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
 
 const OneRecipe = ({ data, preview }) => {
 
-    if(!data) return <div>Loading....</div>
-
     const { data: recipe } = usePreviewSubscription(recipeQuery, {
         params: { slug: data.recipe?.slug.current },
         initialData: data,
@@ -49,9 +46,6 @@ const OneRecipe = ({ data, preview }) => {
         const data = await res.json()
         setLikes(data.likes)
     }
-
-    
-    
 
     return (
         <article className='min-h-screen bg-stone-100 xl:px-20 py-16'>
@@ -156,7 +150,7 @@ export async function getStaticPaths() {
 
     return {
         paths,
-        fallback: true,
+        fallback: false,
     }
 }
 
