@@ -30,7 +30,7 @@ const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
 
 const OneRecipe = ({ data, preview }) => {
 
-    if(!data) return <h1>Loading....</h1>
+    if(!data) return <div>Loading....</div>
 
     const { data: recipe } = usePreviewSubscription(recipeQuery, {
         params: { slug: data.recipe?.slug.current },
