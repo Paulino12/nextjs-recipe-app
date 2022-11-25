@@ -30,10 +30,7 @@ const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
 
 const OneRecipe = ({ data, preview }) => {
 
-    const router = useRouter()
-    if(router.isFallback){
-        return <h1>Loading....</h1>
-    }
+    if(!data) return <h1>Loading....</h1>
 
     const { data: recipe } = usePreviewSubscription(recipeQuery, {
         params: { slug: data.recipe?.slug.current },
