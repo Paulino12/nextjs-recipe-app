@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import CheckIcon from '@mui/icons-material/Check'
 import LocalDiningIcon from '@mui/icons-material/LocalDining'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { 
     sanityClient, urlFor, usePreviewSubscription, PortableText
  } from '../../lib/sanity'
+ 
 
 const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
     _id,
@@ -27,11 +29,18 @@ const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
 }`
 
 const OneRecipe = ({ data, preview }) => {
+
+    const router = useRouter()
+    if(router.isFallback){
+        return <h1>Loading....</h1>
+    }
+
     const { data: recipe } = usePreviewSubscription(recipeQuery, {
         params: { slug: data.recipe?.slug.current },
         initialData: data,
         enabled: preview
     })
+
     const [likes, setLikes] = useState(data?.recipe?.likes)
     const addLike = async () => {
         const res = await fetch('/api/handleLikes', {
@@ -43,6 +52,8 @@ const OneRecipe = ({ data, preview }) => {
         const data = await res.json()
         setLikes(data.likes)
     }
+
+    
     
 
     return (
@@ -148,7 +159,7 @@ export async function getStaticPaths() {
 
     return {
         paths,
-        fallback: false
+        fallback: true,
     }
 }
 
