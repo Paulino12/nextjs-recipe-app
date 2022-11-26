@@ -66,7 +66,7 @@ const OneRecipe = ({ data, preview }) => {
                     <div className='w-full px-3 md:px-0 md:w-1/4'>
                         <img 
                         src={urlFor(data?.recipe?.image).url()} 
-                        className='h-48 w-1/2 mx-auto md:mx-0 md:w-full rounded-lg'
+                        className='h-48 w-1/2 mx-auto md:mx-0 md:w-full rounded-sm'
                         alt={data?.recipe.name} />
                     </div>
                     <div className='w-full px-3 md:px-8 md:w-3/4'>

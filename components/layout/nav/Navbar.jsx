@@ -33,7 +33,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={`fixed bg-gray-700 px-10 text-white w-full z-10`}>
+      <nav className={`fixed bg-gray-700 px-10 text-white w-full z-20`}>
         <div className="inset-y-0 left-0 flex items-center sm:hidden">
           <button type="button" 
           onClick={() => setMenuToggle(!menuToggle)}
@@ -88,6 +88,7 @@ const Navbar = () => {
             onClick={() => {
                 router.push('/')
                 setActiveLink("hero")
+                setMenuToggle(!menuToggle)
             }}
             activeClass='active'
             to="hero"

@@ -29,7 +29,7 @@ const Hero = () => {
                   Welcome to your recipetheque...
               </p>
               <h1 className="text-white font-semibold text-3xl md:text-7xl mb-16">
-                  Discover Exciting Recipes Now
+                  Professionally Crafted Recipes
               </h1>
             </motion.div>
             <motion.div

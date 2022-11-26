@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { urlFor } from '../lib/sanity'
+import Label from './forms/Label'
 import Input from './forms/Input'
+import Select from './forms/Select'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import Preloader from './Preloader'
 import useDebounce from '../customs hooks/useDebounce'
+import usePagination from '../customs hooks/usePagination'
+import Pagination from '@mui/material/Pagination'
 import Button from './forms/Button'
 
 
@@ -13,7 +17,7 @@ const Recipes = ({ recipes }) => {
 
   const [recipeId, setRecipeId] = useState(null)
   const [recipe, setRecipe] = useState('')
-  const [recipeCategory, setRecipeCategory] = useState(null)
+  const [recipeCategory, setRecipeCategory] = useState("All")
   const [searchIsLoading, setSearchIsLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -21,43 +25,54 @@ const Recipes = ({ recipes }) => {
   const searchRecipe = useDebounce(recipe, 500)
   const [filteredRecipes, setFilteredRecipes] = useState(recipes)
 
+  // Pagination Constants
+  const [page, setPage] = useState(1)
+  const perPage = 10
+  const count = Math.ceil(filteredRecipes.length / perPage)
+  const paginatedRecipes = usePagination(filteredRecipes, perPage)
+
+  useEffect(() => {
+    // when results (groceriesList) changes due to search
+    // either through suppliers name or inputing product description
+    // reset pagination to page 1 and show data of page 1
+    setPage(1)
+    paginatedRecipes.jump(1)
+    // Line below removes useeffect warning about adding dependency
+    // eslint-disable-next-line
+  }, [filteredRecipes])
+
+  const handlePaginationChange = (e, page) => {
+    setPage(page)
+    paginatedRecipes.jump(page)
+  }
+
+
   useEffect(() => {
     setSearchIsLoading(true)
-    setRecipeCategory(null)
-    if(!searchRecipe) {
+    if(recipeCategory === "All" && !searchRecipe){
       setFilteredRecipes(recipes)
       return
-    } 
-    // filter recipes based on search
-    setFilteredRecipes(recipes.filter(recipe => recipe.name.includes(searchRecipe)))
-    if(!recipes.filter(recipe => recipe.name.includes(searchRecipe)).length){
-      setMessage(`No recipes match "${searchRecipe}" above`)
+    }else if(recipeCategory === "All"){
+      return setFilteredRecipes(recipes.filter(recipe => recipe.name.includes(searchRecipe)))
+    }else{
+      return setFilteredRecipes(recipes.filter(
+        recipe => recipe.category === recipeCategory && recipe.name.includes(searchRecipe)
+      ))
     }
-  }, [searchRecipe])
+
+  }, [recipeCategory, searchRecipe])
 
   useEffect(() => {
     setSearchIsLoading(false)
-    // setTimeout(() => {
-    //   setSearchIsLoading(false)
-    // }, 500);
+    if(!filteredRecipes.length){
+      return setMessage(`No recipes match the category and recipe name above`)
+    }
   }, [filteredRecipes])
 
   const loadRecipe = (id) => {
     setRecipeId(id)
     setIsLoading(true)
   }
-
-  // const handleCategory = (category) => {
-  //   setRecipeCategory(category)
-  //   if(category === "All") {
-  //     setFilteredRecipes(recipes)
-  //   }else{
-  //     setFilteredRecipes(recipes.filter(recipe => recipe.category === category))
-  //     if(!recipes.filter(recipe => recipe.category === category).length){
-  //       setMessage(`No ${recipeCategory}s available.`)
-  //     }
-  //   }
-  // }
 
   return (
     <section id='recipes' className='min-h-screen bg-stone-100 xl:px-20 py-16'>
@@ -71,26 +86,39 @@ const Recipes = ({ recipes }) => {
             View all our recipes below
         </span>
       </div>
-      <div className='py-6 px-3 md:px-0'>
-        <Input 
-        value={recipe}
-        handleChange={(e) => setRecipe(e.target.value)}
-        placeholder="Search a recipe" 
-        className="w-full md:w-1/2 md:mx-auto" />
+      <div className='py-6 px-3 w-full md:w-2/3 md:mx-auto md:px-0 flex flex-col md:flex-row'>
+        <div className='flex flex-col w-full md:w-1/3 md:mr-3'>
+          <Label labelFor="categories" text="Categories" />
+          <Select 
+          value={recipeCategory}
+          handleChange={(e) => setRecipeCategory(e.target.value)}
+          className="w-full"
+          options={['All', 'starter', 'dessert', 'main course', 'side dish', 'bowl food', 'canapes', 'event', 'buffet', 'salad', 'home bake', 'soup']} />
+        </div>
+        <div className='flex flex-col w-full md:w-2/3'>
+          <Label labelFor="recipe" text="Recipe" />
+          <Input 
+          value={recipe}
+          handleChange={(e) => setRecipe(e.target.value)}
+          placeholder="Search a recipe" 
+          className="w-full" />
+        </div>
       </div>
-
-      {/* <div className='flex flex-row items-center justify-center pb-6 gap-3'>
-        <Button btnText="All" handleClick={() => handleCategory("All")} className={`${recipeCategory === "All" ? 'bg-violet-700':''}`} />
-        <Button btnText="Starters" handleClick={() => handleCategory("starter")} className={`${recipeCategory === "starter" ? 'bg-violet-700':''}`} />
-        <Button btnText="Main Courses" handleClick={() => handleCategory("main course")} className={`${recipeCategory === "main course" ? 'bg-violet-700':''}`} />
-        <Button btnText="Desserts" handleClick={() => handleCategory("dessert")} className={`${recipeCategory === "dessert" ? 'bg-violet-700':''}`} />
-      </div> */}
 
       <div className='w-full min-h-screen relative'>
         <AnimatePresence>
           {searchIsLoading && <Preloader framerOpacity={1} classNameOpacity="" />}
         </AnimatePresence>
         <AnimatePresence mode='wait'>
+          <motion.div
+          className='w-full md:w-1/2 md:mx-auto flex items-center justify-center mb-3'>
+            {
+              filteredRecipes.length > 10 &&
+              <div className=''>
+                <Pagination className='w-full' count={count} page={page} onChange={handlePaginationChange} />
+              </div>
+            }
+          </motion.div>
           <motion.div 
           key={recipeCategory}
           initial={{ opacity: 0 }}
@@ -99,20 +127,20 @@ const Recipes = ({ recipes }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className='flex flex-wrap gap-6 items-center justify-center'>
             {
-              filteredRecipes?.length > 0 ? filteredRecipes.map((recipe, index) => (
+              filteredRecipes?.length > 0 ? paginatedRecipes.currentData().map((recipe, index) => (
                 <motion.div 
                 onClick={() => loadRecipe(recipe._id)}
-                className="relative pb-2 rounded-md recipe-card md:w-52 overflow-hidden shadow-lg hover:shadow-2xl" 
+                className="relative pb-2 rounded-sm recipe-card md:w-52 overflow-hidden shadow-lg hover:shadow-2xl" 
                 key={index}>
                   <AnimatePresence>
                     {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" classNameOpacity="opacity-20" />}
                   </AnimatePresence>
-                  <Link href={`/recipes/${recipe.slug.current}`} className='bg-red-300'>
+                  <Link href={`/recipes/${recipe.slug.current}`}>
                     <img className="shadow-md h-44 w-64 mb-1 recipe-card-image transition-all duration-300 ease-in-out" 
                     alt={recipe.name} src={urlFor(recipe.image).url()} />  
-                    <p className='flex items-center justify-start capitalize font-semibold ml-1'>
+                    <p className='flex items-center justify-start capitalize font-semibold ml-1 text-sm'>
                       {recipe.name}
-                      <small className='flex items-center justify-center ml-2 bg-yellow-400 rounded-full px-2 font-semibold'>{recipe.dietary}</small>
+                      <span className='flex items-center justify-center ml-2 bg-yellow-400 rounded-full px-2 font-semibold mr-1'>{recipe.dietary}</span>
                     </p>
                     <p className='text-gray-500 text-xs ml-1'>
                       by {recipe.author.name}
