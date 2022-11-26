@@ -6,8 +6,6 @@ import Label from './forms/Label'
 import Input from './forms/Input'
 import Select from './forms/Select'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import LockIcon from '@mui/icons-material/Lock';
 import Preloader from './Preloader'
 import useDebounce from '../customs hooks/useDebounce'
 import usePagination from '../customs hooks/usePagination'
@@ -50,17 +48,13 @@ const Recipes = ({ recipes }) => {
     paginatedRecipes.jump(page)
   }
 
-
   useEffect(() => {
-    setAnimateKey(recipeCategory)
     if(recipeCategory === "All" && !searchRecipe){
       setFilteredRecipes(recipes)
       return
-    }else if(recipeCategory === "All"){
-      setAnimateKey(searchRecipe)
+    }else if(recipeCategory === "All"){ 
       setFilteredRecipes(recipes.filter(recipe => recipe.name.includes(searchRecipe)))
     }else{
-      setAnimateKey(searchRecipe)
       setFilteredRecipes(recipes.filter(
         recipe => recipe.category === recipeCategory && recipe.name.includes(searchRecipe)
       ))
@@ -68,6 +62,18 @@ const Recipes = ({ recipes }) => {
     // Line below removes useeffect warning about adding dependency
     // eslint-disable-next-line
   }, [recipeCategory, searchRecipe])
+
+  useEffect(() => {
+    setAnimateKey(recipeCategory)
+    // Line below removes useeffect warning about adding dependency
+    // eslint-disable-next-line
+  }, [recipeCategory])
+
+  useEffect(() => {
+    setAnimateKey(searchRecipe)
+    // Line below removes useeffect warning about adding dependency
+    // eslint-disable-next-line
+  }, [searchRecipe])
 
   useEffect(() => {
     if(!filteredRecipes.length){
