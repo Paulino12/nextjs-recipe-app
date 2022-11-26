@@ -65,7 +65,7 @@ export default {
                     name: 'timeUnit',
                     type: 'string',
                     options: {
-                        list: ["min(s)", "hr(s)", "day(s)"]
+                        list: ["min", "mins", "hr", "hrs", "day", "days"]
                     }
                 }
             ]

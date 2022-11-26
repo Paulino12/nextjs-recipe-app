@@ -57,9 +57,11 @@ const Recipes = ({ recipes }) => {
       setFilteredRecipes(recipes)
       return
     }else if(recipeCategory === "All"){
-      return setFilteredRecipes(recipes.filter(recipe => recipe.name.includes(searchRecipe)))
+      setAnimateKey(searchRecipe)
+      setFilteredRecipes(recipes.filter(recipe => recipe.name.includes(searchRecipe)))
     }else{
-      return setFilteredRecipes(recipes.filter(
+      setAnimateKey(searchRecipe)
+      setFilteredRecipes(recipes.filter(
         recipe => recipe.category === recipeCategory && recipe.name.includes(searchRecipe)
       ))
     }
