@@ -6,11 +6,12 @@ import Label from './forms/Label'
 import Input from './forms/Input'
 import Select from './forms/Select'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockIcon from '@mui/icons-material/Lock';
 import Preloader from './Preloader'
 import useDebounce from '../customs hooks/useDebounce'
 import usePagination from '../customs hooks/usePagination'
 import Pagination from '@mui/material/Pagination'
-import Button from './forms/Button'
 
 
 const Recipes = ({ recipes }) => {
@@ -18,22 +19,24 @@ const Recipes = ({ recipes }) => {
   const [recipeId, setRecipeId] = useState(null)
   const [recipe, setRecipe] = useState('')
   const [recipeCategory, setRecipeCategory] = useState("All")
-  const [searchIsLoading, setSearchIsLoading] = useState(false)
+
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  // dynamic key for smooth animation (framer-motion)
+  const [animateKey, setAnimateKey] = useState(null) 
 
   const searchRecipe = useDebounce(recipe, 500)
   const [filteredRecipes, setFilteredRecipes] = useState(recipes)
 
   // Pagination Constants
   const [page, setPage] = useState(1)
-  const perPage = 10
+  const perPage = 8
   const count = Math.ceil(filteredRecipes.length / perPage)
   const paginatedRecipes = usePagination(filteredRecipes, perPage)
 
   useEffect(() => {
-    // when results (groceriesList) changes due to search
-    // either through suppliers name or inputing product description
+    // when results (filtered recipes) changes due to search
+    // either through category or inputing recipe name
     // reset pagination to page 1 and show data of page 1
     setPage(1)
     paginatedRecipes.jump(1)
@@ -42,13 +45,14 @@ const Recipes = ({ recipes }) => {
   }, [filteredRecipes])
 
   const handlePaginationChange = (e, page) => {
+    setAnimateKey(page)
     setPage(page)
     paginatedRecipes.jump(page)
   }
 
 
   useEffect(() => {
-    setSearchIsLoading(true)
+    setAnimateKey(recipeCategory)
     if(recipeCategory === "All" && !searchRecipe){
       setFilteredRecipes(recipes)
       return
@@ -59,14 +63,16 @@ const Recipes = ({ recipes }) => {
         recipe => recipe.category === recipeCategory && recipe.name.includes(searchRecipe)
       ))
     }
-
+    // Line below removes useeffect warning about adding dependency
+    // eslint-disable-next-line
   }, [recipeCategory, searchRecipe])
 
   useEffect(() => {
-    setSearchIsLoading(false)
     if(!filteredRecipes.length){
       return setMessage(`No recipes match the category and recipe name above`)
     }
+    // Line below removes useeffect warning about adding dependency
+    // eslint-disable-next-line
   }, [filteredRecipes])
 
   const loadRecipe = (id) => {
@@ -104,23 +110,17 @@ const Recipes = ({ recipes }) => {
           className="w-full" />
         </div>
       </div>
+      <motion.div
+      className='w-full md:w-1/2 md:mx-auto flex items-center justify-center mb-3'>
+        <div>
+            <Pagination className='w-full' count={count} page={page} onChange={handlePaginationChange} />
+        </div> 
+      </motion.div>
 
-      <div className='w-full min-h-screen relative'>
-        <AnimatePresence>
-          {searchIsLoading && <Preloader framerOpacity={1} classNameOpacity="" />}
-        </AnimatePresence>
+      <div className='w-full min-h-screen relative px-2 md:px-0'>
         <AnimatePresence mode='wait'>
-          <motion.div
-          className='w-full md:w-1/2 md:mx-auto flex items-center justify-center mb-3'>
-            {
-              filteredRecipes.length > 10 &&
-              <div className=''>
-                <Pagination className='w-full' count={count} page={page} onChange={handlePaginationChange} />
-              </div>
-            }
-          </motion.div>
           <motion.div 
-          key={recipeCategory}
+          key={animateKey}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -130,13 +130,13 @@ const Recipes = ({ recipes }) => {
               filteredRecipes?.length > 0 ? paginatedRecipes.currentData().map((recipe, index) => (
                 <motion.div 
                 onClick={() => loadRecipe(recipe._id)}
-                className="relative pb-2 rounded-sm recipe-card md:w-52 overflow-hidden shadow-lg hover:shadow-2xl" 
+                className="relative pb-2 rounded-sm recipe-card md:w-64 overflow-hidden shadow-lg hover:shadow-2xl" 
                 key={index}>
                   <AnimatePresence>
                     {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" classNameOpacity="opacity-20" />}
                   </AnimatePresence>
                   <Link href={`/recipes/${recipe.slug.current}`}>
-                    <img className="shadow-md h-44 w-64 mb-1 recipe-card-image transition-all duration-300 ease-in-out" 
+                    <img className="shadow-md mb-1 recipe-card-image transition-all duration-300 ease-in-out" 
                     alt={recipe.name} src={urlFor(recipe.image).url()} />  
                     <p className='flex items-center justify-start capitalize font-semibold ml-1 text-sm'>
                       {recipe.name}
@@ -150,6 +150,9 @@ const Recipes = ({ recipes }) => {
                       <AccessTimeIcon fontSize='small' /> 
                       <small>{`${recipe.time?.timeFrame} ${recipe.time?.timeUnit}`}</small>
                     </span>
+                    {/* <span className='absolute rounded-full flex items-center justify-center p-1 bg-red-100 top-1 right-1 '>
+                      <LockIcon fontSize='extra-small' color='error' /> 
+                    </span> */}
                   </Link>
                 </motion.div>
               ))
