@@ -34,10 +34,11 @@ const Hero = () => {
             </motion.div>
             <motion.div
               // initial={{ opacity: 0 }}
-              animate={{  y: -20 }}
+              animate={{  y: -30 }}
               transition={{
-                duration: 0.5,
-                yoyo: "Infinity",
+                duration: 0.7,
+                repeat: "Infinity",
+                repeatType: "reverse",
                 ease: "easeOut",
               }}
             >

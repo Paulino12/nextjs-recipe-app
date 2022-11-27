@@ -1,4 +1,3 @@
-import Head from "next/head"
 import { sanityClient } from '../lib/sanity'
 
 import Hero from "../components/Hero"
