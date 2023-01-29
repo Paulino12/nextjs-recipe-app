@@ -64,10 +64,12 @@ const OneRecipe = ({ data, preview }) => {
             <main>
                 <div className='flex flex-col md:flex-row w-full md:w-3/4 md:mx-auto'>
                     <div className='w-full px-3 md:px-0 md:w-1/4'>
-                        <img 
-                        src={urlFor(data?.recipe?.image).url()} 
-                        className='h-48 w-1/2 mx-auto md:mx-0 md:w-full rounded-sm'
-                        alt={data?.recipe.name} />
+                        <picture>
+                            <img 
+                            src={urlFor(data?.recipe?.image).url()} 
+                            className='h-48 w-1/2 mx-auto md:mx-0 md:w-full rounded-sm'
+                            alt={data?.recipe.name} />
+                        </picture>
                     </div>
                     <div className='w-full px-3 md:px-8 md:w-3/4'>
                         <h1>By {data?.recipe.author?.name}</h1>

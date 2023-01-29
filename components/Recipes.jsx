@@ -53,6 +53,8 @@ const Recipes = ({ recipes }) => {
         return prev
       }, {})
     )
+    // Line below removes useeffect warning about adding dependency
+    // eslint-disable-next-line
   }, [])
 
   // Pagination Constants
@@ -176,10 +178,12 @@ const Recipes = ({ recipes }) => {
                     {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" classNameOpacity="opacity-20" />}
                   </AnimatePresence>
                   <Link href={`/recipes/${recipe.slug.current}`}>
-                    <img 
-                    onClick={() => loadRecipe(recipe._id)}
-                    className="shadow-md mb-1 recipe-card recipe-card-image transition-all duration-300 ease-in-out" 
-                    alt={recipe.name} src={urlFor(recipe.image).url()} />  
+                    <picture>
+                      <img 
+                      onClick={() => loadRecipe(recipe._id)}
+                      className="shadow-md mb-1 recipe-card recipe-card-image transition-all duration-300 ease-in-out" 
+                      alt={recipe.name} src={urlFor(recipe.image).url()} />  
+                    </picture>
                     <p className='flex items-center justify-start capitalize font-semibold ml-1 text-sm'>
                       {recipe.name}
                       <span className='flex items-center justify-center ml-2 bg-yellow-400 rounded-full px-2 font-semibold mr-1'>{recipe.dietary}</span>

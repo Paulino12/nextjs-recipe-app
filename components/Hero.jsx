@@ -26,7 +26,7 @@ const Hero = () => {
             <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 2 }}>
               <p 
               className="my-4 text-xl md:text-3xl text-white italic">
-                  Welcome to your food's recipetheque...
+                  Welcome to your food recipetheque...
               </p>
               <h1 className="text-white font-semibold text-3xl md:text-7xl mb-16">
                   Professionally Crafted Recipes
