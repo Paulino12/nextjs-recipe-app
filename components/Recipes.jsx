@@ -16,7 +16,12 @@ const Recipes = ({ recipes }) => {
 
   const [recipeId, setRecipeId] = useState(null)
   const [recipe, setRecipe] = useState('')
-  const [recipeCategory, setRecipeCategory] = useState("All")
+  // categories for recipes for filtering purpose
+  const [recipeCategory, setRecipeCategory] = useState(`All (${recipes.length})`)
+  // categories retrieved for options in select tag
+  const [optionsCategory, setOptionsCategory] = useState([])
+  // identifying how many distinct categories exists and show with options in select tag
+  const [optionsCategoryNumbers, setOptionsCategoryNumbers] = useState({})
 
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -25,6 +30,30 @@ const Recipes = ({ recipes }) => {
 
   const searchRecipe = useDebounce(recipe, 500)
   const [filteredRecipes, setFilteredRecipes] = useState(recipes)
+
+  // setting category options on mount
+  // and distinct/unique
+  useEffect(() => {
+    setOptionsCategory(
+      recipes
+      .map((recipe) => ( // find all category
+        recipe.category
+      ))
+      .filter((value, index, arr) => ( // filtering by distinct/unique values
+        arr.indexOf(value) === index
+      ))
+    )
+    // retrieving number of recipes in each category
+    setOptionsCategoryNumbers(
+        recipes.map((recipe) => { // find all categories
+        return recipe.category
+      })
+      .reduce((prev, curr) => { // create an object that count and assign to each key
+        prev[curr] = (prev[curr] || 0) + 1
+        return prev
+      }, {})
+    )
+  }, [])
 
   // Pagination Constants
   const [page, setPage] = useState(1)
@@ -49,10 +78,10 @@ const Recipes = ({ recipes }) => {
   }
 
   useEffect(() => {
-    if(recipeCategory === "All" && !searchRecipe){
+    if(recipeCategory === `All (${recipes.length})` && !searchRecipe){
       setFilteredRecipes(recipes)
       return
-    }else if(recipeCategory === "All"){ 
+    }else if(recipeCategory === `All (${recipes.length})`){ 
       setFilteredRecipes(recipes.filter(recipe => recipe.name.includes(searchRecipe)))
     }else{
       setFilteredRecipes(recipes.filter(
@@ -106,8 +135,12 @@ const Recipes = ({ recipes }) => {
           <Select 
           value={recipeCategory}
           handleChange={(e) => setRecipeCategory(e.target.value)}
-          className="w-full"
-          options={['All', 'starter', 'dessert', 'main course', 'side dish', 'bowl food', 'canapes', 'event', 'buffet', 'salad', 'pastry/baking', 'soup']} />
+          className="w-full capitalize"
+          optionNumbers={optionsCategoryNumbers}
+          // options={optionsCategoryNumbers}
+          options={[`All (${recipes.length})`, ...optionsCategory]}
+          // options={[`All (${recipes.length})`, 'starter', 'dessert', 'main course', 'side dish', 'bowl food', 'canapes', 'event', 'buffet', 'salad', 'pastry/baking', 'soup']}
+           />
         </div>
         <div className='flex flex-col w-full md:w-2/3'>
           <Label labelFor="recipe" text="Recipe" />

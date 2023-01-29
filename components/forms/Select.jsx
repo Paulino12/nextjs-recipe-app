@@ -5,7 +5,8 @@ function Select({
     options,
     value,
     handleChange,
-    disabled
+    disabled,
+    optionNumbers
 }) {
     return (
         <>
@@ -18,7 +19,14 @@ function Select({
             disabled={disabled} >
                 {
                     options.map((option, index) => {
-                        return <option className='capitalize' key={index} value={option}>{option}</option>
+                        return <option className='capitalize' key={index} value={option}>
+                            {
+                                `
+                                    ${option} 
+                                    ${!optionNumbers[option] ? '' : `(${optionNumbers[option]})`}
+                                `
+                            }
+                            </option>
                     })
                 }
             </select>
