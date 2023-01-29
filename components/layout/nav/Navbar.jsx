@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
+// import Link from 'next/link'
 import { useRouter } from 'next/router'
 import HomeIcon from '@mui/icons-material/Home'
 import TwitterIcon from '@mui/icons-material/Twitter'
@@ -16,20 +16,21 @@ const Navbar = () => {
   const [activeLink, setActiveLink] = useState(null)
   const [activeScroll, setActiveScroll] = useState(false)
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-        setActiveScroll(window.scrollY > 200)
-    })
-  }, [])
+  // useEffect(() => {
+  //   window.addEventListener("scroll", () => {
+  //       setActiveScroll(window.scrollY > 20)
+  //   })
+  // }, [])
 
   useEffect(() => {
     if(router.asPath === '/'){
         setActiveLink('hero')
-    }else if(router.asPath !== '/' 
-    || router.asPath !== '/#recipes'){
-        setActiveLink('')
+    }else if(router.asPath === '/#recipes'){
+        setActiveLink('recipes')
+    }else{
+      setActiveLink('')
     }
-  }, [router])
+}, [router])
 
   return (
     <>
@@ -52,7 +53,7 @@ const Navbar = () => {
           {/* <div className='hidden sm:flex sm:flex-row sm:items-baseline'>
             <Link href="https://www.maryoctav.com" target="_blank">Octav</Link>
           </div> */}
-          <div>
+          <div className='flex sm:flex-row md:space-x-4'>
             <LinkScroll 
             onClick={() => {
                 router.push('/')
@@ -73,6 +74,23 @@ const Navbar = () => {
             >
               <Home />
             </LinkScroll>
+            <LinkScroll 
+            onClick={() => {router.push('/#recipes')}}
+            activeClass='active'
+            to="recipes"
+            spy={true}
+            smooth={true}
+            duration={500}
+            onSetActive={() => {
+                setActiveLink("recipes");
+            }}
+            className={`cursor-pointer
+                ${activeLink === 'recipes' ? 'bg-gray-900 text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium' 
+                : 'text-gray-300 hover:text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium'}
+                `}
+            >
+              Recipes
+            </LinkScroll>
           </div>
           <div className='space-x-4 flex items-center justify-end'>
             <TwitterIcon fontSize='small' className='cursor-pointer text-gray-400 hover:text-white' />
@@ -86,7 +104,7 @@ const Navbar = () => {
           <div className="px-2 pt-2 pb-3 space-y-1 flex flex-col">
             <LinkScroll 
             onClick={() => {
-                router.push('/')
+                router.push('/#hero')
                 setActiveLink("hero")
                 setMenuToggle(!menuToggle)
             }}
@@ -104,6 +122,27 @@ const Navbar = () => {
                 `}
             >
               <Home />
+            </LinkScroll>
+            <LinkScroll 
+            onClick={() => {
+                router.push('/#recipes')
+                setActiveLink("recipes")
+                setMenuToggle(!menuToggle)
+            }}
+            activeClass='active'
+            to="recipes"
+            spy={true}
+            smooth={true}
+            duration={500}
+            onSetActive={() => {
+                setActiveLink("recipes")
+            }}
+            className={`cursor-pointer
+                ${activeLink === 'recipes' ? 'bg-gray-900 text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium' 
+                : 'text-gray-300 hover:text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium'}
+                `}
+            >
+              Recipes
             </LinkScroll>
           </div>
           <div className='space-x-4 flex items-center justify-center pb-3'>

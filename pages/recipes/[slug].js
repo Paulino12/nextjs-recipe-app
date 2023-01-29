@@ -116,7 +116,12 @@ const OneRecipe = ({ data, preview }) => {
                             {
                                 data?.recipe.ingredients?.map((ingredient, index) => (
                                     <div key={index} className='flex flex-row align-baseline'>
-                                        <span className='mr-1'><CheckIcon fontSize='sm' color='success' /></span>
+                                        
+                                        {ingredient.toLowerCase().substring(0,3) !== "for" && (
+                                            <span className='mr-1'>
+                                                <CheckIcon fontSize='sm' color='success' />
+                                            </span>
+                                        ) }
                                         <div className='divt-none'>
                                             {ingredient}
                                         </div>

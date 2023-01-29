@@ -107,7 +107,7 @@ const Recipes = ({ recipes }) => {
           value={recipeCategory}
           handleChange={(e) => setRecipeCategory(e.target.value)}
           className="w-full"
-          options={['All', 'starter', 'dessert', 'main course', 'side dish', 'bowl food', 'canapes', 'event', 'buffet', 'salad', 'home bake', 'soup']} />
+          options={['All', 'starter', 'dessert', 'main course', 'side dish', 'bowl food', 'canapes', 'event', 'buffet', 'salad', 'pastry/baking', 'soup']} />
         </div>
         <div className='flex flex-col w-full md:w-2/3'>
           <Label labelFor="recipe" text="Recipe" />
@@ -137,23 +137,20 @@ const Recipes = ({ recipes }) => {
             {
               filteredRecipes?.length > 0 ? paginatedRecipes.currentData().map((recipe, index) => (
                 <motion.div 
-                onClick={() => loadRecipe(recipe._id)}
-                className="relative pb-2 rounded-sm recipe-card md:w-64 overflow-hidden shadow-lg hover:shadow-2xl" 
+                className="relative pb-2 rounded-sm md:w-64 overflow-hidden shadow-lg hover:shadow-2xl" 
                 key={index}>
                   <AnimatePresence>
                     {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" classNameOpacity="opacity-20" />}
                   </AnimatePresence>
                   <Link href={`/recipes/${recipe.slug.current}`}>
-                    <img className="shadow-md mb-1 recipe-card-image transition-all duration-300 ease-in-out" 
+                    <img 
+                    onClick={() => loadRecipe(recipe._id)}
+                    className="shadow-md mb-1 recipe-card recipe-card-image transition-all duration-300 ease-in-out" 
                     alt={recipe.name} src={urlFor(recipe.image).url()} />  
                     <p className='flex items-center justify-start capitalize font-semibold ml-1 text-sm'>
                       {recipe.name}
                       <span className='flex items-center justify-center ml-2 bg-yellow-400 rounded-full px-2 font-semibold mr-1'>{recipe.dietary}</span>
                     </p>
-                    <p className='text-gray-500 text-xs ml-1'>
-                      by {recipe.author.name}
-                    </p>
-                    
                     <span className='absolute rounded-2xl bg-yellow-400 opacity-70 font-bold top-1 left-1 px-2 py-2 text-sm flex flex-row space-x-1 recipe-card-time'>
                       <AccessTimeIcon fontSize='small' /> 
                       <small>{`${recipe.time?.timeFrame} ${recipe.time?.timeUnit}`}</small>
@@ -161,6 +158,11 @@ const Recipes = ({ recipes }) => {
                     {/* <span className='absolute rounded-full flex items-center justify-center p-1 bg-red-100 top-1 right-1 '>
                       <LockIcon fontSize='extra-small' color='error' /> 
                     </span> */}
+                  </Link>
+                  <Link href="#">
+                    <p className='text-gray-500 text-xs ml-1'>
+                      by {recipe.author.name}
+                    </p>
                   </Link>
                 </motion.div>
               ))
