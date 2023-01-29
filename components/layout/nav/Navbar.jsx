@@ -53,7 +53,7 @@ const Navbar = () => {
           {/* <div className='hidden sm:flex sm:flex-row sm:items-baseline'>
             <Link href="https://www.maryoctav.com" target="_blank">Octav</Link>
           </div> */}
-          <div className='flex sm:flex-row md:space-x-4'>
+          <div className='flex sm:flex-row md:space-x-1'>
             <LinkScroll 
             onClick={() => {
                 router.push('/')
