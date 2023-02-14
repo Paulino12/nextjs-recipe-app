@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
         contentStyle={{ flex: "unset" }}
         buttonClasses='rounded-lg font-bold'
         buttonText="Got it..."
-        cookieName="CintelApp"
+        cookieName="RecipeApp"
         style={{ background: "#2B373B", marginBottom: "25px", width: "50%", left: "25%" }}
         buttonStyle={{ backgroundColor: "#8b5cf6", color: "#fff", fontSize: "13px" }}
         expires={5}
