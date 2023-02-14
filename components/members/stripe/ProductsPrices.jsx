@@ -78,16 +78,7 @@ const ProductsPrices = () => {
           <div className='inline-block'>
               <span className='text-6xl font-bold'>£1.95</span>/mo
           </div>
-          <p className='inline-block italic ml-1 text-xs my-3 px-2 text-center whitespace-nowrap align-baseline font-medium bg-blue-600 text-white rounded'>Intelligent costing</p>
         </div>
-        {/* <div onClick={() => handleProduct(premiumProductPrice)}
-        className='flex flex-col items-start py-2 px-5 bg-white rounded-lg shadow-lg cursor-pointer hover:shadow-2xl hoverCardEffect active:scale-95'>
-          <div className='my-6 py-1 px-2 font-semibold uppercase rounded-xl bg-yellow-400 text-yellow-800'>Premium</div>
-          <div className='inline-block'>
-              <span className='text-6xl font-bold'>£49.95</span>/mo
-          </div>
-          <p className='inline-block italic ml-1 text-xs my-3 px-2 text-center whitespace-nowrap align-baseline font-medium bg-blue-600 text-white rounded'>Add Ingredients search engine</p>
-        </div> */}
       </div>
     </div>
   )
