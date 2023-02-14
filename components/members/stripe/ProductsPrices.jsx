@@ -14,9 +14,11 @@ const ProductsPrices = () => {
 
   const router = useRouter()
 
-  // const standardProductPrice = "price_1JTNrDHQlT2vrwxYa4546CBR"
-  // const premiumProductPrice = "price_1JTNseHQlT2vrwxYdQyw0FDw"
-  const standardProductPrice = "price_1MY5X9HQlT2vrwxYO5BjCy0z"
+  // Development price or Stripe test mode price
+  // const standardProductPrice = "price_1MY5X9HQlT2vrwxYO5BjCy0z"
+  
+  // Production price
+  const standardProductPrice = "price_1MbVWpHQlT2vrwxY6bZx9oEJ"
 
   // new useState session variable to allow redirect to dashboard after subscription
   // without the need to signout first.
