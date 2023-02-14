@@ -1,15 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { AnimatePresence } from 'framer-motion'
+import { getSession, signIn } from 'next-auth/react'
 import CheckIcon from '@mui/icons-material/Check'
 import LocalDiningIcon from '@mui/icons-material/LocalDining'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { 
     sanityClient, urlFor, usePreviewSubscription, PortableText
  } from '../../lib/sanity'
+ import Preloader from '../../components/Preloader'
+
+//  context
+import { LoadingContext } from '../../contexts/LoadingContext'
  
 
 const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
     _id,
     name,
+    subscriber,
     category,
     dietary,
     author->{
@@ -23,11 +30,15 @@ const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
     ingredients[],
     method,
     allergens,
+    nutritionals,
+    nutritionalsPer100g,
     slug,
     likes
 }`
 
 const OneRecipe = ({ data, preview }) => {
+    // initiate context
+    const { noSessionLoading, setNoSessionLoading } = useContext(LoadingContext)
 
     const { data: recipe } = usePreviewSubscription(recipeQuery, {
         params: { slug: data.recipe?.slug.current },
@@ -35,20 +46,73 @@ const OneRecipe = ({ data, preview }) => {
         enabled: preview
     })
 
-    const [likes, setLikes] = useState(data?.recipe?.likes)
-    const addLike = async () => {
-        const res = await fetch('/api/handleLikes', {
-            method: "POST",
-            body: JSON.stringify({ _id: recipe._id })
-        })
-        .catch((error) => { console.log(error) })
+    // check session and redirect to sign in if not
+    useEffect(() => {
+        const access = async () => {
+            const session = await getSession()
+            // check session and user is a subscriber
+            if(!session && data?.recipe.subscriber){
+                setNoSessionLoading(true)
+                return signIn()
+            }
+        }
+        access()
+        // Line below removes useeffect warning about adding dependency
+        // eslint-disable-next-line
+    }, [])
 
-        const data = await res.json()
-        setLikes(data.likes)
+    // const [likes, setLikes] = useState(data?.recipe?.likes)
+    // const addLike = async () => {
+    //     const res = await fetch('/api/handleLikes', {
+    //         method: "POST",
+    //         body: JSON.stringify({ _id: recipe._id })
+    //     })
+    //     .catch((error) => { console.log(error) })
+
+    //     const data = await res.json()
+    //     setLikes(data.likes)
+    // }
+
+    // Nutritionals component
+    const Nutritionals = ({ name, percentage, value }) => {
+        return (
+            <div>
+                <div 
+                className={`flex flex-col h-full w-24 
+                justify-center items-center gap-1 text-xs font-semibold`}>
+                    <div>{name}</div>
+                    <div 
+                    className={`h-full ${name !== 'Energy' && (
+                        percentage > 25 ? 'bg-red-400 text-white' 
+                        : 
+                        percentage >= 5 && percentage <= 25 ?
+                        'bg-yellow-400 text-white'
+                        :
+                        percentage < 5 && 'bg-green-400 text-white'
+                    )}
+                    flex items-center text-center px-5`}>
+                        {
+                            value.other ? (
+                                <div>{value.other}</div>
+                            ):(
+                                <div>
+                                    <div>{value.kj} kj</div>
+                                    <div>{value.kcal} kcal</div>
+                                </div>
+                            )
+                        }
+                    </div>
+                    <div>{percentage}%</div>
+                </div>
+            </div>
+        )
     }
 
     return (
-        <article className='min-h-screen bg-stone-100 xl:px-20 py-16'>
+        <article className='min-h-screen bg-stone-100 xl:px-20 py-16 relative'>
+            <AnimatePresence>
+                {noSessionLoading && <Preloader />}
+            </AnimatePresence>
             <div className="flex flex-col items-center justify-center text-center">
                 <div className="w-full lg:w-6/12 px-4 relative">
                     <h2 className="text-4xl pb-3 font-semibold capitalize">
@@ -63,16 +127,16 @@ const OneRecipe = ({ data, preview }) => {
             </div>
             <main>
                 <div className='flex flex-col md:flex-row w-full md:w-3/4 md:mx-auto'>
-                    <div className='w-full px-3 md:px-0 md:w-1/4'>
+                    <div className='w-full px-3 md:px-0 md:w-1/4 flex items-center'>
                         <picture>
                             <img 
                             src={urlFor(data?.recipe?.image).url()} 
-                            className='h-48 w-1/2 mx-auto md:mx-0 md:w-full rounded-sm'
+                            className='mx-auto md:mx-0 md:w-full rounded-sm'
                             alt={data?.recipe.name} />
                         </picture>
                     </div>
                     <div className='w-full px-3 md:px-8 md:w-3/4'>
-                        <h1>By {data?.recipe.author?.name}</h1>
+                        {/* <h1>By {data?.recipe.author?.name}</h1> */}
                         <div className='flex flex-row gap-10 mt-3'>
                             <div className='rounded-2xl bg-yellow-400 font-bold px-3 py-1'>
                                 <AccessTimeIcon />
@@ -84,13 +148,11 @@ const OneRecipe = ({ data, preview }) => {
                             <div className='rounded-2xl bg-yellow-400 font-bold px-3 py-1'>
                                 <LocalDiningIcon />
                                 <small className='ml-1'>{`Serves ${data?.recipe.numberOfServes}`}</small>
-                            </div>
-                            
+                            </div>                            
                         </div>
                         <div className='mt-3 flex flex-col md:flex-row md:gap-6'>
                             <h1 className='recipe-inner-heading'>Category:</h1> 
-                            <p className='capitalize'>{data?.recipe.category}</p>
-                            
+                            <p className='capitalize'>{data?.recipe.category}</p>                            
                         </div>
                         <div className='mt-3 flex flex-col md:flex-row md:gap-6'>
                             {
@@ -108,6 +170,22 @@ const OneRecipe = ({ data, preview }) => {
                                 ))
                             }
                         </div>
+                        {
+                            data?.recipe?.nutritionals &&
+                            <div className='bg-white rounded-md shadow-lg mt-2 py-1'>
+                                <p className='text-xs md:text-center font-semibold w-full underline'>Nutrionals per average servings</p>
+                                <div className='mt-1 w-full flex flex-row md:justify-center flex-wrap gap-5'>
+                                    {
+                                        data?.recipe?.nutritionals.map((nutritional, index) => (
+                                            <Nutritionals key={index} {...nutritional} />
+                                        ))
+                                    }
+                                </div>
+                                <p className='mt-1 text-xs md:text-center font-semibold w-full'>
+                                    Typical values per 100g Energy {data?.recipe?.nutritionalsPer100g['kj']} kj /  {data?.recipe?.nutritionalsPer100g['kcal']} kcal
+                                </p>
+                            </div>
+                        }
                     </div>
                 </div>
                 
@@ -137,7 +215,6 @@ const OneRecipe = ({ data, preview }) => {
                         <h1 className='recipe-inner-heading'>Instructions:</h1>
                         <PortableText value={data?.recipe?.method} />
                     </div>
-                    
                 </div>
             </main>
         </article>
@@ -154,7 +231,6 @@ export async function getStaticPaths() {
             }
         }`
     )
-
     return {
         paths,
         fallback: false,
@@ -167,7 +243,6 @@ export async function getStaticProps({ params }) {
     return {
         props: {
             data: { recipe } , preview: true 
-        },
-        revalidate: 45
+        }
     }
 }

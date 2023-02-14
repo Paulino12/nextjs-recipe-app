@@ -7,7 +7,7 @@ function Label({
 }) {
     return (
         <>
-            <label htmlFor={labelFor} className={`inline-block text-gray-900 font-medium text-sm ${className}`}>{text}</label>
+            <label htmlFor={labelFor} className={`inline-block text-gray-900 font-medium text-xs md:text-sm ${className}`}>{text}</label>
         </>
     )
 }

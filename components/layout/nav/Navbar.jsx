@@ -1,20 +1,41 @@
-import React, { useState, useEffect } from 'react'
-// import Link from 'next/link'
+import React, { useState, useEffect, useContext } from 'react'
+import axios from 'axios'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import HomeIcon from '@mui/icons-material/Home'
 import TwitterIcon from '@mui/icons-material/Twitter'
 import FacebookIcon from '@mui/icons-material/Facebook'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+
+import ButtonField from '../../forms/ButtonField'
 // Import react scroll
 import { Link as LinkScroll } from "react-scroll"
 import Home from '@mui/icons-material/Home'
 
+// context
+import { MainContext } from '../../../contexts/MainContext'
+
 const Navbar = () => {
+
   const router = useRouter()
+  const { data: session, status } = useSession()
+
+  // Initiate context
+  const { 
+    subscriptionPlan, setSubscriptionPlan, newFullname
+  } = useContext(MainContext)
+
   const [menuToggle, setMenuToggle] = useState(true)
   const [activeLink, setActiveLink] = useState(null)
   const [activeScroll, setActiveScroll] = useState(false)
+  const [loading, setLoading] = useState(true) 
+
+  const [userName, setUserName] = useState('')
+  const [isAdmin, setIsAdmin] = useState(null)
 
   // useEffect(() => {
   //   window.addEventListener("scroll", () => {
@@ -30,12 +51,32 @@ const Navbar = () => {
     }else{
       setActiveLink('')
     }
-}, [router])
+  }, [router])
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/auth/signin' })
+  }  
+
+  useEffect(() => {
+    axios.get(`/api/auth/authed-user`)
+        .then((response) => {
+            setUserName(response.data.name) 
+            setIsAdmin(response.data.admin)
+            setSubscriptionPlan(response.data.stripeSubscriptionPrice) 
+            setLoading(false)
+        })
+        .catch((error) => { 
+            if(error.message){
+                setLoading(false)
+            }
+         })
+    // Line below removes useeffect warning about adding dependency
+    // eslint-disable-next-line
+  }, [router, newFullname])
 
   return (
-    <>
       <nav className={`fixed bg-gray-700 px-10 text-white w-full z-20`}>
-        <div className="inset-y-0 left-0 flex items-center sm:hidden">
+        <div className="inset-y-0 left-0 flex items-center sm:hidden w-1/4">
           <button type="button" 
           onClick={() => setMenuToggle(!menuToggle)}
           className={`inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 cursor-pointer ${!menuToggle ? 'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white':''} `} aria-controls="mobile-menu" aria-expanded="false">
@@ -53,58 +94,115 @@ const Navbar = () => {
           {/* <div className='hidden sm:flex sm:flex-row sm:items-baseline'>
             <Link href="https://www.maryoctav.com" target="_blank">Octav</Link>
           </div> */}
-          <div className='flex sm:flex-row md:space-x-1'>
-            <LinkScroll 
-            onClick={() => {
-                router.push('/')
-                setActiveLink("hero")
-            }}
-            activeClass='active'
-            to="hero"
-            spy={true}
-            smooth={true}
-            duration={500}
-            onSetActive={() => {
-                setActiveLink("hero")
-            }}
-            className={`cursor-pointer
-                ${activeLink === 'hero' ? 'bg-gray-900 text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium' 
-                : 'text-gray-300 hover:text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium'}
-                `}
-            >
-              <Home />
-            </LinkScroll>
-            <LinkScroll 
-            onClick={() => {router.push('/#recipes')}}
-            activeClass='active'
-            to="recipes"
-            spy={true}
-            smooth={true}
-            duration={500}
-            onSetActive={() => {
-                setActiveLink("recipes");
-            }}
-            className={`cursor-pointer
-                ${activeLink === 'recipes' ? 'bg-gray-900 text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium' 
-                : 'text-gray-300 hover:text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium'}
-                `}
-            >
-              Recipes
-            </LinkScroll>
-          </div>
-          <div className='space-x-4 flex items-center justify-end'>
-            <TwitterIcon fontSize='small' className='cursor-pointer text-gray-400 hover:text-white' />
-            <FacebookIcon fontSize='small' className='cursor-pointer text-gray-400 hover:text-white' />
-            <LinkedInIcon fontSize='small' className='cursor-pointer text-gray-400 hover:text-white' />
-            <InstagramIcon fontSize='small' className='cursor-pointer text-gray-400 hover:text-white' />
+          <div className='w-full flex flew-row justify-between'>
+            <div className='sm:flex sm:flex-row md:space-x-1'>
+              <LinkScroll 
+              onClick={() => {
+                  router.push('/')
+                  setActiveLink("hero")
+              }}
+              activeClass='active'
+              to="hero"
+              spy={true}
+              smooth={true}
+              duration={500}
+              onSetActive={() => {
+                  setActiveLink("hero")
+              }}
+              className={`cursor-pointer
+                  ${activeLink === 'hero' ? 'bg-gray-900 text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium' 
+                  : 'text-gray-300 hover:text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium'}
+                  `}
+              >
+                <Home /> 
+              </LinkScroll>
+              <LinkScroll 
+              onClick={() => {router.push('/#recipes')}}
+              activeClass='active'
+              to="recipes"
+              spy={true}
+              smooth={true}
+              duration={500}
+              onSetActive={() => {
+                  setActiveLink("recipes");
+              }}
+              className={`cursor-pointer
+                  ${activeLink === 'recipes' ? 'bg-gray-900 text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium' 
+                  : 'text-gray-300 hover:text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium'}
+                  `}
+              >
+                Recipes
+              </LinkScroll>
+              <LinkScroll 
+              onClick={() => {router.push('/#contact')}}
+              activeClass='active'
+              to="contact"
+              spy={true}
+              smooth={true}
+              duration={500}
+              onSetActive={() => {
+                  setActiveLink("contact");
+              }}
+              className={`cursor-pointer
+                  ${activeLink === 'contact' ? 'bg-gray-900 text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium' 
+                  : 'text-gray-300 hover:text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium'}
+                  `}
+              >
+                Contact
+              </LinkScroll>
+            </div>
+            <div className={`space-x-4 flex items-center justify-end ${loading ? 'loading' : 'loaded'}`}>
+              {
+                !session ? 
+                <div className={`flex space-x-4`}>
+                  <Link 
+                  href="/auth/signup"
+                  className={`${router.asPath === '/auth/signup' ? 'bg-gray-900 text-white px-3 py-1 rounded-md text-sm font-medium' 
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-1 rounded-md text-sm font-medium'}
+                  `}  onClick={() => { setMenuToggle(true) }}>
+                    Get Started
+                  </Link>
+                  <Link 
+                  href="/auth/signin"
+                  className={`${router.asPath === '/auth/signin' ? 'bg-gray-900 text-white px-3 py-1 rounded-md text-sm font-medium' 
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-1 rounded-md text-sm font-medium'}
+                  `}  onClick={() => setMenuToggle(true)}>
+                    Sign In
+                  </Link>
+                </div>
+                :
+                <div className="flex space-x-4">
+                  <h1 className='flex items-center text-white rounded-md text-xs md:text-sm lg:text-lg font-semibold mr-3 capitalize'>Welcome, {userName}</h1>
+                  
+                  {
+                    subscriptionPlan && 
+                    <Link 
+                    href="/members/profile"
+                    className={`
+                    ${router.asPath === '/members/profile' ? 'flex items-center bg-gray-900 text-white px-3 py-1 my-1 rounded-md text-sm font-medium' 
+                    : ' text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-1 my-1 rounded-md text-sm font-medium'}
+                    `}
+                    >
+                      <AccountCircleIcon />
+                    </Link>
+                  }
+                  <Link href="#"  
+                  onClick={handleSignOut}
+                  className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    Sign Out
+                  </Link>
+                </div>
+              }
+            </div>
           </div>
         </div>
 
-        <div className={`${menuToggle ? 'hidden':''} sm:hidden`} id="mobile-menu">
-          <div className="px-2 pt-2 pb-3 space-y-1 flex flex-col">
+        {/* Mobile menu */}
+        <div className={`${menuToggle ? 'hidden':''} sm:hidden flex flex-col items-start`} id="mobile-menu">
+          <div className="px- pt-2 pb-3 space-y-1 flex flex-col items-start">
             <LinkScroll 
             onClick={() => {
-                router.push('/#hero')
+                router.push('/')
                 setActiveLink("hero")
                 setMenuToggle(!menuToggle)
             }}
@@ -144,16 +242,69 @@ const Navbar = () => {
             >
               Recipes
             </LinkScroll>
+            <LinkScroll 
+            onClick={() => {
+                router.push('/#contact')
+                setActiveLink("contact")
+                setMenuToggle(!menuToggle)
+            }}
+            activeClass='active'
+            to="contact"
+            spy={true}
+            smooth={true}
+            duration={500}
+            onSetActive={() => {
+                setActiveLink("contact")
+            }}
+            className={`cursor-pointer
+                ${activeLink === 'contact' ? 'bg-gray-900 text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium' 
+                : 'text-gray-300 hover:text-white px-3 flex items-center justify-center my-1 py-1 rounded-md text-sm font-medium'}
+                `}
+            >
+              Contact
+            </LinkScroll>
           </div>
-          <div className='space-x-4 flex items-center justify-center pb-3'>
-            <TwitterIcon fontSize='small' className='cursor-pointer text-gray-400 hover:text-white' />
-            <FacebookIcon fontSize='small' className='cursor-pointer text-gray-400 hover:text-white' />
-            <LinkedInIcon fontSize='small' className='cursor-pointer text-gray-400 hover:text-white' />
-            <InstagramIcon fontSize='small' className='cursor-pointer text-gray-400 hover:text-white' />
+          <div className='space-x-4 pb-3'>
+            {
+              !session ? 
+              <div className='flex space-x-4'>
+                <Link 
+                href="/auth/signup"
+                className={`${router.asPath === '/auth/signup' ? 'bg-gray-900 text-white px-3 py-1 rounded-md text-sm font-medium' 
+                : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-1 rounded-md text-sm font-medium'}
+                `}  onClick={() => { setMenuToggle(true) }}>
+                  Get Started
+                </Link>
+                <Link 
+                href="/auth/signin"
+                className={`${router.asPath === '/auth/signin' ? 'bg-gray-900 text-white px-3 py-1 rounded-md text-sm font-medium' 
+                : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-1 rounded-md text-sm font-medium'}
+                `}  onClick={() => setMenuToggle(true)}>
+                  Sign In
+                </Link>
+              </div>
+              :
+              <div className="flex space-x-4">
+                {/* <h1 className='flex items-center text-white rounded-md text-xs md:text-sm lg:text-lg font-semibold mr-3 capitalize'>Welcome, {userName}</h1> */}
+                <Link 
+                href="/members/profile"
+                className={`
+                ${router.asPath === '/members/profile' ? 'flex items-center bg-gray-900 text-white px-3 py-1 my-1 rounded-md text-sm font-medium' 
+                : ' text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-1 my-1 rounded-md text-sm font-medium'}
+                `}
+                >
+                  <AccountCircleIcon />
+                </Link>
+                <Link href="#"  
+                onClick={handleSignOut}
+                className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  Sign Out
+                </Link>
+              </div>
+            }
           </div>
         </div>
       </nav>
-    </>
   )
 }
 

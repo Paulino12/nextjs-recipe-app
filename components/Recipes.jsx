@@ -1,18 +1,41 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import { getSession, signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { urlFor } from '../lib/sanity'
 import Label from './forms/Label'
 import Input from './forms/Input'
 import Select from './forms/Select'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import LockIcon from '@mui/icons-material/Lock'
+import LockOpenIcon from '@mui/icons-material/LockOpen'
 import Preloader from './Preloader'
 import useDebounce from '../customs hooks/useDebounce'
 import usePagination from '../customs hooks/usePagination'
 import Pagination from '@mui/material/Pagination'
 
+// context
+import { MainContext } from '../contexts/MainContext'
+import { NotificationsContext } from '../contexts/NotificationsContext'
+import { LockOpen } from '@mui/icons-material'
+
 
 const Recipes = ({ recipes }) => {
+
+  const router = useRouter()
+
+  // session state
+  // const [inSession, setInSession] = useState(false)
+
+  // initiate context
+  const { inSession, setInSession } = useContext(MainContext)
+  const { 
+    setNotification,
+    setShowNotification,
+    setShowPricing
+   } = useContext(NotificationsContext)
 
   const [recipeId, setRecipeId] = useState(null)
   const [recipe, setRecipe] = useState('')
@@ -30,6 +53,46 @@ const Recipes = ({ recipes }) => {
 
   const searchRecipe = useDebounce(recipe, 500)
   const [filteredRecipes, setFilteredRecipes] = useState(recipes)
+
+  // checking session
+  useEffect(() => {
+    const access = async () => {
+      const session = await getSession()
+      if(session) {
+        setInSession(true)
+        // check if the current logged in user has a subscription plan (subscribed)
+        // retrieve from session user object from next-auth
+        const userId = session.user[0]
+        axios.get(`/api/stripe/userSubscription/${userId}`)
+            .then((response) => {
+                if(!response.data.userSubscription){
+                    setNotification("Please subscribe to explore recipes or Sign out.")
+                    setShowNotification(true)
+                    // redirect to cintelProducts to choose plans (standard or premium)
+                    return router.push(`/members/stripe/cintelProducts`)
+                }
+                // else{
+                //     // redirect to home page to access recipes 
+                //     router.push(`/`)
+                // }
+            })
+            .catch((error) => {
+                if(error){
+                    // show error (connection or stripe)
+                    setNotification("Something went wrong, please check your connection or contact us.")
+                    setShowNotification(true)
+                    // redirect to signin page
+                    signIn()
+                }
+            })
+      }else{
+        setInSession(false)
+      }
+    }
+    access()
+    // Line below removes useeffect warning about adding dependency
+    // eslint-disable-next-line
+  }, [])
 
   // setting category options on mount
   // and distinct/unique
@@ -120,7 +183,7 @@ const Recipes = ({ recipes }) => {
   }
 
   return (
-    <section id='recipes' className='min-h-screen bg-stone-100 xl:px-20 py-16'>
+    <section id='recipes' className='min-h-screen xl:px-20 py-16'>
       <div className="flex flex-col items-center justify-center text-center">
         <div className="w-full lg:w-6/12 px-4 relative">
             <h2 className="text-4xl pb-3 font-semibold">Recipes</h2>
@@ -191,16 +254,19 @@ const Recipes = ({ recipes }) => {
                     <span className='absolute rounded-2xl bg-yellow-400 opacity-70 font-bold top-1 left-1 px-2 py-2 text-sm flex flex-row space-x-1 recipe-card-time'>
                       <AccessTimeIcon fontSize='small' /> 
                       <small>{`${recipe.time?.timeFrame} ${recipe.time?.timeUnit}`}</small>
-                    </span>
-                    {/* <span className='absolute rounded-full flex items-center justify-center p-1 bg-red-100 top-1 right-1 '>
-                      <LockIcon fontSize='extra-small' color='error' /> 
-                    </span> */}
+                    </span>                    
                   </Link>
-                  <Link href="#">
-                    <p className='text-gray-500 text-xs ml-1'>
-                      by {recipe.author.name}
-                    </p>
-                  </Link>
+                  {
+                    !inSession && recipe.subscriber && (
+                      <div 
+                      onClick={() => setShowPricing(true)}
+                      className='absolute top-0 left-0 h-full w-full opacity-50 z-10 bg-gray-600 cursor-pointer'>
+                        <span className='absolute rounded-full flex items-center justify-center p-1 bg-red-100 top-1 right-1 '>
+                          <LockIcon fontSize='extra-small' color='error' /> 
+                        </span>
+                      </div>
+                    )
+                  }
                 </motion.div>
               ))
               :
@@ -212,7 +278,6 @@ const Recipes = ({ recipes }) => {
                 </h1>
               </div>
             }
-            
           </motion.div>
         </AnimatePresence>
       </div>

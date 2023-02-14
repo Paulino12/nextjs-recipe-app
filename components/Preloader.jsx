@@ -11,7 +11,7 @@ function Preloader({ loadMessage, framerOpacity, classNameOpacity }) {
             duration: 1,
             ease: "easeInOut"
           }}
-        className={`absolute rounded-md top-0 left-0 h-full w-full bg-white flex flex-col items-center justify-center text-amber-900 z-10 ${classNameOpacity}`}>
+        className={`absolute rounded-md top-0 left-0 h-full w-full bg-white flex flex-col items-center justify-center text-amber-900 z-30 ${classNameOpacity}`}>
             <div>
                 <CircularProgress color='secondary' />
             </div>

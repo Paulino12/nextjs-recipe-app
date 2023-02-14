@@ -16,6 +16,12 @@ export default {
             type: 'string',
         },
         {
+            name: 'subscriber',
+            title: 'Subscriber',
+            type: 'boolean',
+            validation: Rule => Rule.required(),
+        },
+        {
             name: 'category',
             title: 'Category',
             validation: Rule => Rule.required(),
@@ -117,6 +123,61 @@ export default {
                         }
                     ]
                 }
+            ]
+        },
+        {
+            name: 'nutritionals',
+            title: 'Nutritionals',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        {
+                            name: 'name',
+                            title: 'Name',
+                            type: 'string'
+                        },
+                        {
+                            name: 'value',
+                            title: 'Value',
+                            type: 'object',
+                            fields: [
+                                {
+                                    name: 'kj',
+                                    title: 'KJ',
+                                    type: 'number'
+                                },
+                                {
+                                    name: 'kcal',
+                                    title: 'Kcal',
+                                    type: 'number'
+                                },
+                                {
+                                    name: 'other',
+                                    title: 'Other',
+                                    type: 'number'
+                                }
+                            ]
+                                
+                            
+                        },
+                        {
+                            name: 'percentage',
+                            title: 'Percentage',
+                            type: 'string'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: 'nutritionalsPer100g',
+            title: 'NutritionalsPer100g',
+            type: 'object',
+            fields: [
+                { name: 'kj', title: 'Kj', type: 'number' },
+                { name: 'kcal', title: 'Kcal', type: 'number' }
             ]
         },
         {
