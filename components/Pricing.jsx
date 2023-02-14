@@ -21,6 +21,10 @@ const Pricing = () => {
             <div className='h-full bg-gray-100 py-3 px-5 flex items-center justify-center'>
                 <ul className="mt-3 text-sm">
                     <li className='list-none'>
+                        <CheckIcon fontSize='medium' color='success' />
+                        <strong>7 days free trial.</strong>
+                    </li>
+                    <li className='list-none'>
                         <CheckIcon fontSize='medium' color='success' />Access all recipes.
                     </li>
                     <li className='list-none'>
