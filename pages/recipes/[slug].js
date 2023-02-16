@@ -93,7 +93,7 @@ const OneRecipe = ({ data, preview }) => {
                     flex items-center text-center px-5`}>
                         {
                             value.other ? (
-                                <div>{value.other}</div>
+                                <div className='h-12 flex items-center'>{value.other}</div>
                             ):(
                                 <div>
                                     <div>{value.kj} kj</div>
@@ -196,13 +196,12 @@ const OneRecipe = ({ data, preview }) => {
                             {
                                 data?.recipe.ingredients?.map((ingredient, index) => (
                                     <div key={index} className='flex flex-row align-baseline'>
-                                        
                                         {ingredient.toLowerCase().substring(0,3) !== "for" && (
                                             <span className='mr-1'>
                                                 <CheckIcon fontSize='sm' color='success' />
                                             </span>
                                         ) }
-                                        <div className='divt-none'>
+                                        <div>
                                             {ingredient}
                                         </div>
                                     </div>

@@ -48,7 +48,10 @@ const Navbar = () => {
         setActiveLink('hero')
     }else if(router.asPath === '/#recipes'){
         setActiveLink('recipes')
-    }else{
+    }else if(router.asPath === '/#contact'){
+      setActiveLink('contact')
+    }
+    else{
       setActiveLink('')
     }
   }, [router])
@@ -95,7 +98,7 @@ const Navbar = () => {
             <Link href="https://www.maryoctav.com" target="_blank">Octav</Link>
           </div> */}
           <div className='w-full flex flew-row justify-between'>
-            <div className='sm:flex sm:flex-row md:space-x-1'>
+            <div className='sm:flex sm:flex-row md:space-x-4'>
               <LinkScroll 
               onClick={() => {
                   router.push('/')
@@ -151,10 +154,10 @@ const Navbar = () => {
                 Contact
               </LinkScroll>
             </div>
-            <div className={`space-x-4 flex items-center justify-end ${loading ? 'loading' : 'loaded'}`}>
+            <div className={`md:space-x-4 flex items-center justify-end ${loading ? 'loading' : 'loaded'}`}>
               {
                 !session ? 
-                <div className={`flex space-x-4`}>
+                <div className={`flex md:space-x-4`}>
                   <Link 
                   href="/auth/signup"
                   className={`${router.asPath === '/auth/signup' ? 'bg-gray-900 text-white px-3 py-1 rounded-md text-sm font-medium' 
@@ -264,10 +267,10 @@ const Navbar = () => {
               Contact
             </LinkScroll>
           </div>
-          <div className='space-x-4 pb-3'>
+          <div className='pb-3'>
             {
               !session ? 
-              <div className='flex space-x-4'>
+              <div>
                 <Link 
                 href="/auth/signup"
                 className={`${router.asPath === '/auth/signup' ? 'bg-gray-900 text-white px-3 py-1 rounded-md text-sm font-medium' 
@@ -284,8 +287,7 @@ const Navbar = () => {
                 </Link>
               </div>
               :
-              <div className="flex space-x-4">
-                {/* <h1 className='flex items-center text-white rounded-md text-xs md:text-sm lg:text-lg font-semibold mr-3 capitalize'>Welcome, {userName}</h1> */}
+              <div>
                 {
                   subscriptionPlan && (
                     <Link 

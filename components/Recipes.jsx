@@ -251,7 +251,8 @@ const Recipes = ({ recipes }) => {
                       {recipe.name}
                       <span className='flex items-center justify-center ml-2 bg-yellow-400 rounded-full px-2 font-semibold mr-1'>{recipe.dietary}</span>
                     </p>
-                    <span className='absolute rounded-2xl bg-yellow-400 opacity-70 font-bold top-1 left-1 px-2 py-2 text-sm flex flex-row space-x-1 recipe-card-time'>
+                    <span className='absolute rounded-2xl bg-yellow-400 opacity-80 font-bold top-1 left-1 
+                    w-24 px-2 py-2 text-sm flex flex-row justify-center space-x-1 recipe-card-time'>
                       <AccessTimeIcon fontSize='small' /> 
                       <small>{`${recipe.time?.timeFrame} ${recipe.time?.timeUnit}`}</small>
                     </span>                    
@@ -260,8 +261,8 @@ const Recipes = ({ recipes }) => {
                     !inSession && recipe.subscriber && (
                       <div 
                       onClick={() => setShowPricing(true)}
-                      className='absolute top-0 left-0 h-full w-full opacity-50 z-10 bg-gray-600 cursor-pointer'>
-                        <span className='absolute rounded-full flex items-center justify-center p-1 bg-red-100 top-1 right-1 '>
+                      className='absolute top-0 left-0 h-full w-full opacity-50 z-10 bg-gray-700 cursor-pointer'>
+                        <span className='absolute rounded-full flex items-center justify-center p-1 bg-red-100 top-1 right-1'>
                           <LockIcon fontSize='extra-small' color='error' /> 
                         </span>
                       </div>
