@@ -78,7 +78,7 @@ const OneRecipe = ({ data, preview }) => {
         return (
             <div>
                 <div 
-                className={`flex flex-col h-full w-24 
+                className={`flex flex-col h-full w-24
                 justify-center items-center gap-1 text-xs font-semibold`}>
                     <div>{name}</div>
                     <div 
@@ -93,7 +93,7 @@ const OneRecipe = ({ data, preview }) => {
                     flex items-center text-center px-5`}>
                         {
                             value.other ? (
-                                <div className='h-12 flex items-center'>{value.other}</div>
+                                <div className='h-12 w-6 flex items-center justify-center'>{value.other}</div>
                             ):(
                                 <div>
                                     <div>{value.kj} kj</div>
