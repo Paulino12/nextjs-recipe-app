@@ -16,6 +16,11 @@ a {
   box-sizing: border-box;
 }
 
+.image-wrapper {
+  z-index: -1;
+  /* position: absolute; */
+}
+
 /* Navabr slow appearance on page changes */
 .loading {
   opacity: 0;

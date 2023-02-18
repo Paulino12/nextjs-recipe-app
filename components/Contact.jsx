@@ -126,7 +126,7 @@ function Contact({ csrfToken }) {
                         value={contactMessage}
                         handleTextArea={(e) => setContactMessage(e.target.value)}
                         placeholder="Your query" />
-                        <small className={`text-gray-400 ${characters >= 250 ? 'text-red-600':''}`}>
+                        <small className={`text-gray-600 ${characters >= 250 ? 'text-red-600':''}`}>
                             {
                                 characters >= 250 ?
                                 "You cannot extend your message" : `${250 - characters} character(s) left`

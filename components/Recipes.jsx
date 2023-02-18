@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
+import Image from 'next/image'
+import { urlFor } from '../lib/sanity'
 import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { getSession, signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { urlFor } from '../lib/sanity'
+
 import Label from './forms/Label'
 import Input from './forms/Input'
 import Select from './forms/Select'
@@ -25,9 +27,6 @@ import { LockOpen } from '@mui/icons-material'
 const Recipes = ({ recipes }) => {
 
   const router = useRouter()
-
-  // session state
-  // const [inSession, setInSession] = useState(false)
 
   // initiate context
   const { inSession, setInSession } = useContext(MainContext)
@@ -71,10 +70,6 @@ const Recipes = ({ recipes }) => {
                     // redirect to cintelProducts to choose plans (standard or premium)
                     return router.push(`/members/stripe/cintelProducts`)
                 }
-                // else{
-                //     // redirect to home page to access recipes 
-                //     router.push(`/`)
-                // }
             })
             .catch((error) => {
                 if(error){
@@ -241,12 +236,15 @@ const Recipes = ({ recipes }) => {
                     {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" classNameOpacity="opacity-20" />}
                   </AnimatePresence>
                   <Link href={`/recipes/${recipe.slug.current}`}>
-                    <picture>
-                      <img 
-                      onClick={() => loadRecipe(recipe._id)}
-                      className="shadow-md mb-1 recipe-card recipe-card-image transition-all duration-300 ease-in-out" 
-                      alt={recipe.name} src={urlFor(recipe.image).url()} />  
-                    </picture>
+                    <Image 
+                    onClick={() => loadRecipe(recipe._id)}
+                    src={urlFor(recipe.image).url()} 
+                    width={300} height={300} 
+                    style={{
+                      width: "auto", height: "auto"
+                    }}
+                    className="shadow-md mb-1 recipe-card recipe-card-image transition-all duration-300 ease-in-out"
+                    alt={recipe.name} />
                     <p className='flex items-center justify-start capitalize font-semibold ml-1 text-sm'>
                       {recipe.name}
                       <span className='flex items-center justify-center ml-2 bg-yellow-400 rounded-full px-2 font-semibold mr-1'>{recipe.dietary}</span>

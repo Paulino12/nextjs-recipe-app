@@ -27,7 +27,7 @@ function Input({
             onKeyDown={handleKeyDown}
             className={`block w-full px-1 md:px-3 py-2 border border-gray-300 rounded-sm shadow-sm
             placeholder-gray-400
-            focus:outline-none focus:border-violet-500 focus:ring-violet-500 text-xs sm:text-sm md:text-base
+            focus:outline-none focus:border-violet-500 focus:ring-violet-500 text-xs sm:text-sm
             ${disabled && 'bg-gray-200'} ${className}`}
             placeholder={placeholder}
             required

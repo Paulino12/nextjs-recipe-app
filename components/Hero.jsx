@@ -10,6 +10,7 @@ import { getSession } from 'next-auth/react'
 
 // context
 import { MainContext } from '../contexts/MainContext'
+import zIndex from '@mui/material/styles/zIndex'
 
 const Hero = () => {
 
@@ -30,25 +31,30 @@ const Hero = () => {
 
   return (
       <section id='hero' 
-      className='flex content-center items-center justify-center min-h-screen py-20'
-      style={{
-        backgroundImage: 'url("/assets/images/homeBg2.jpg")',
-        backgroundRepeat: "none",
-        backgroundSize: "cover",
-        backgroundPosition: "center"
-      }}      
+      className='min-h-screen flex content-center items-center justify-center py-20 object-cover relative'
       >
-        {/* <Image src="/assets/images/heroBanner.png" layout='fill' objectFit='cover' priority={true} alt="heroBanner" /> */}
-        <span id="blackOverlay" className="w-full h-full absolute opacity-60 bg-black" ></span>
+        <Image 
+        src="/assets/images/homeBg2.jpg" 
+        fill
+        style={{
+          objectFit: 'cover',
+          objectPosition: 'center',
+          zIndex: '-1'
+        }}
+          alt="heroBanner" />
+        <span id="blackOverlay" className="w-full h-full absolute opacity-50 bg-black" ></span>
         <div className="w-full flex items-center text-center z-10 relative">
           <div className='w-full px-5 md:p-0'>
-              <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 2 }}>
+              <motion.div 
+              initial={{ opacity: 0, y: -100 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 2 }}
+              >
                 <p 
-                className="my-4 text-xl md:text-3xl text-gray-200 italic">
+                className="my-4 text-xl md:text-3xl text-white italic">
                     Welcome to your food recipetheque...
-                    {/* {!inSession ? "£1.95/mo" : "In session"} */}
                 </p>
-                <h1 className="text-gray-200 font-semibold text-3xl md:text-7xl mb-16">
+                <h1 className="text-white font-semibold text-3xl md:text-7xl mb-16">
                   {
                     !inSession ? "Professionally Made Easy Recipes" : "Start cooking and Enjoy!"
                   }
@@ -73,6 +79,7 @@ const Hero = () => {
                 >
                   <ButtonField 
                   btnText={<ArrowDownwardIcon fontSize='large' />} 
+                  ariaLabel="goToRecipes"
                   className="rounded-full py-3" />
                 </LinkScroll>
               </motion.div>

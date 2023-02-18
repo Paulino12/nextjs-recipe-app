@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import Image from 'next/image'
 import { AnimatePresence } from 'framer-motion'
 import { getSession, signIn } from 'next-auth/react'
 import CheckIcon from '@mui/icons-material/Check'
@@ -128,12 +129,14 @@ const OneRecipe = ({ data, preview }) => {
             <main>
                 <div className='flex flex-col md:flex-row w-full md:w-3/4 md:mx-auto'>
                     <div className='w-full px-3 md:px-0 md:w-1/4 flex items-center'>
-                        <picture>
-                            <img 
-                            src={urlFor(data?.recipe?.image).url()} 
-                            className='mx-auto md:mx-0 md:w-full rounded-sm'
-                            alt={data?.recipe.name} />
-                        </picture>
+                        <Image
+                        src={urlFor(data?.recipe?.image).url()} 
+                        width={300} height={300}
+                        style={{
+                            width: "auto", height: "auto"
+                        }}
+                        alt={data?.recipe.name}
+                         />
                     </div>
                     <div className='w-full px-3 md:px-8 md:w-3/4'>
                         {/* <h1>By {data?.recipe.author?.name}</h1> */}
