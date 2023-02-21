@@ -128,14 +128,19 @@ const OneRecipe = ({ data, preview }) => {
             </div>
             <main>
                 <div className='flex flex-col md:flex-row w-full md:w-3/4 md:mx-auto'>
-                    <div className='w-full px-3 md:px-0 md:w-1/4 flex items-center'>
+                    <div className='w-full h-48 md:h-auto px-3 md:px-0 md:w-1/4 flex items-center justify-center relative'>
                         <Image
                         src={urlFor(data?.recipe?.image).url()} 
-                        width={300} height={300}
+                        // width={300} height={300}
+                        // style={{
+                        //     width: "auto", height: "auto"
+                        // }}
+                        fill
                         style={{
-                            width: "auto", height: "auto"
+                            objectFit: 'cover', objectPosition: 'center'
                         }}
                         alt={data?.recipe.name}
+                        className='px-3 md:px-0'
                          />
                     </div>
                     <div className='w-full px-3 md:px-8 md:w-3/4'>
