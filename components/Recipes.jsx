@@ -12,7 +12,6 @@ import Input from './forms/Input'
 import Select from './forms/Select'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import LockIcon from '@mui/icons-material/Lock'
-import LockOpenIcon from '@mui/icons-material/LockOpen'
 import Preloader from './Preloader'
 import useDebounce from '../customs hooks/useDebounce'
 import usePagination from '../customs hooks/usePagination'
@@ -21,7 +20,6 @@ import Pagination from '@mui/material/Pagination'
 // context
 import { MainContext } from '../contexts/MainContext'
 import { NotificationsContext } from '../contexts/NotificationsContext'
-import { LockOpen } from '@mui/icons-material'
 
 
 const Recipes = ({ recipes }) => {
@@ -230,21 +228,23 @@ const Recipes = ({ recipes }) => {
             {
               filteredRecipes?.length > 0 ? paginatedRecipes.currentData().map((recipe, index) => (
                 <motion.div 
-                className="relative pb-2 rounded-sm md:w-64 overflow-hidden shadow-lg hover:shadow-2xl" 
+                className="relative pb-2 rounded-sm w-full md:w-64 overflow-hidden shadow-lg hover:shadow-2xl" 
                 key={index}>
                   <AnimatePresence>
                     {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" classNameOpacity="opacity-20" />}
                   </AnimatePresence>
                   <Link href={`/recipes/${recipe.slug.current}`}>
-                    <Image 
-                    onClick={() => loadRecipe(recipe._id)}
-                    src={urlFor(recipe.image).url()} 
-                    width={300} height={300} 
-                    style={{
-                      width: "auto", height: "auto"
-                    }}
-                    className="shadow-md mb-1 recipe-card recipe-card-image transition-all duration-300 ease-in-out"
-                    alt={recipe.name} />
+                    <div className='relative h-48 w-full mb-2'>
+                      <Image 
+                      onClick={() => loadRecipe(recipe._id)}
+                      src={urlFor(recipe.image).url()} 
+                      fill
+                      style={{
+                        objectFit: 'cover', objectPosition: 'center'
+                      }}
+                      className="shadow-md recipe-card recipe-card-image transition-all duration-300 ease-in-out"
+                      alt={recipe.name} />
+                    </div>
                     <p className='flex items-center justify-start capitalize font-semibold ml-1 text-sm'>
                       {recipe.name}
                       <span className='flex items-center justify-center ml-2 bg-yellow-400 rounded-full px-2 font-semibold mr-1'>{recipe.dietary}</span>
@@ -259,7 +259,7 @@ const Recipes = ({ recipes }) => {
                     !inSession && recipe.subscriber && (
                       <div 
                       onClick={() => setShowPricing(true)}
-                      className='absolute top-0 left-0 h-full w-full opacity-50 z-10 bg-gray-700 cursor-pointer'>
+                      className='absolute top-0 left-0 h-full w-full opacity-70 z-10 bg-gray-700 cursor-pointer'>
                         <span className='absolute rounded-full flex items-center justify-center p-1 bg-red-100 top-1 right-1'>
                           <LockIcon fontSize='extra-small' color='error' /> 
                         </span>
