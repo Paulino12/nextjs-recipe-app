@@ -52,7 +52,7 @@ const Hero = () => {
               >
                 <p 
                 className="my-4 text-xl md:text-3xl text-white italic">
-                    Welcome to your food recipetheque...
+                    Welcome to your food recipetheque
                 </p>
                 <h1 className="text-white font-semibold text-3xl md:text-7xl mb-16">
                   {
