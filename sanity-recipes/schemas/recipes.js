@@ -136,7 +136,10 @@ export default {
                         {
                             name: 'name',
                             title: 'Name',
-                            type: 'string'
+                            type: 'string',
+                            options: {
+                                list: ["Energy", "Fat (g)", "Sat Fat (g)", "Sugar (g)", "Salt (g)"]
+                            }
                         },
                         {
                             name: 'value',

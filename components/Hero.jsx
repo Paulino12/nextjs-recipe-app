@@ -56,7 +56,7 @@ const Hero = () => {
                 </p>
                 <h1 className="text-white font-semibold text-3xl md:text-7xl mb-16">
                   {
-                    !inSession ? "Professionally Made Easy Recipes" : "Start cooking and Enjoy!"
+                    !inSession ? "Professionally Made Easy Recipes" : "Start cooking and Enjoy"
                   }
                     
                 </h1>

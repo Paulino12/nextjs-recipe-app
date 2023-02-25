@@ -93,7 +93,7 @@ const Signup = () => {
               <div className='absolute bottom-0 left-0 right-0 mx-auto h-1.5 w-14 lg:w-16 bg-yellow-400'></div>
           </div>
           <span className="text-sm italic mt-2">
-              Unlock 100s of recipes for only <strong>£1.95/mo</strong>
+              Unlock lots of recipes for only <strong>£1.95/mo</strong>
           </span>
         </div>
         <form onSubmit={handleSubmit}

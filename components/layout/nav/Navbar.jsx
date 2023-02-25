@@ -275,7 +275,7 @@ const Navbar = () => {
                 href="/auth/signup"
                 className={`${router.asPath === '/auth/signup' ? 'bg-gray-900 text-white px-3 py-1 rounded-md text-sm font-medium' 
                 : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-1 rounded-md text-sm font-medium'}
-                `}  onClick={() => { setMenuToggle(true) }}>
+                `} onClick={() => { setMenuToggle(true) }}>
                   Get Started
                 </Link>
                 <Link 
@@ -296,6 +296,7 @@ const Navbar = () => {
                     ${router.asPath === '/members/profile' ? 'flex items-center bg-gray-900 text-white px-3 py-1 my-1 rounded-md text-sm font-medium' 
                     : ' text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-1 my-1 rounded-md text-sm font-medium'}
                     `}
+                    onClick={() => { setMenuToggle(true) }}
                     >
                       <AccountCircleIcon />
                     </Link>

@@ -16,7 +16,7 @@ const Pricing = () => {
                 <div className='inline-block'>
                     <span className='text-6xl font-bold'>£1.95</span>/mo
                 </div>
-                <p className='italic'>Unlock 100s of recipes</p>
+                <p className='italic'>Unlock lots of recipes</p>
             </div>
             <div className='h-full bg-gray-100 py-3 px-5 flex items-center justify-center'>
                 <ul className="mt-3 text-sm">

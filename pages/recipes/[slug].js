@@ -5,6 +5,7 @@ import { getSession, signIn } from 'next-auth/react'
 import CheckIcon from '@mui/icons-material/Check'
 import LocalDiningIcon from '@mui/icons-material/LocalDining'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import Tooltip from '@mui/material/Tooltip'
 import { 
     sanityClient, urlFor, usePreviewSubscription, PortableText
  } from '../../lib/sanity'
@@ -109,6 +110,22 @@ const OneRecipe = ({ data, preview }) => {
         )
     }
 
+    // provide full dietary from initials
+    const dietaryTooltip = (dietaryInitial) => {
+        switch (dietaryInitial) {
+            case "Ve":
+                return "Vegan"
+            case "V":
+                return "Vegetarian"
+            case "F":
+                return "Fish"
+            case "M":
+                return "Meat"
+            default:
+                break;
+        }
+    }
+
     return (
         <article className='min-h-screen bg-stone-100 xl:px-20 py-16 relative'>
             <AnimatePresence>
@@ -131,10 +148,6 @@ const OneRecipe = ({ data, preview }) => {
                     <div className='w-full h-48 md:h-auto px-3 md:px-0 md:w-1/4 flex items-center justify-center relative'>
                         <Image
                         src={urlFor(data?.recipe?.image).url()} 
-                        // width={300} height={300}
-                        // style={{
-                        //     width: "auto", height: "auto"
-                        // }}
                         fill
                         style={{
                             objectFit: 'cover', objectPosition: 'center'
@@ -151,7 +164,9 @@ const OneRecipe = ({ data, preview }) => {
                                 <small className='ml-1'>{`${data?.recipe.time?.timeFrame} ${data?.recipe.time?.timeUnit}`}</small>
                             </div>
                             <div className='flex items-center justify-center'>
-                                <small className='rounded-2xl bg-yellow-400 px-2 font-bold text-lg'>{data?.recipe.dietary}</small>
+                                <Tooltip title={dietaryTooltip(data?.recipe.dietary)} placement='top' arrow>
+                                    <small className='rounded-2xl bg-yellow-400 px-2 font-bold text-lg'>{data?.recipe.dietary}</small>
+                                </Tooltip>
                             </div>
                             <div className='rounded-2xl bg-yellow-400 font-bold px-3 py-1'>
                                 <LocalDiningIcon />
