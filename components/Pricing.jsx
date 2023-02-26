@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
-import { NotificationsContext } from '../contexts/NotificationsContext'
+import { MainContext } from '../contexts/MainContext'
 import Link from 'next/link'
 import ButtonField from './forms/ButtonField'
 import CheckIcon from '@mui/icons-material/Check'
 
 const Pricing = () => {
 
-    const { setShowPricing } = useContext(NotificationsContext)
+    const { setShowPricing } = useContext(MainContext)
 
     return (
         <div className="bg-white flex flex-col h-full w-full shadow-lg rounded-lg relative">

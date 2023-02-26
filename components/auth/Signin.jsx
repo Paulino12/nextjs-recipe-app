@@ -11,13 +11,11 @@ import { signIn } from 'next-auth/react'
 
 // context
 import { MainContext } from '../../contexts/MainContext'
-import { LoadingContext } from '../../contexts/LoadingContext'
 
 const Signin = ({ csrfToken }) => {
 
     // initiate context
-    const { showModal, setShowModal } = useContext(MainContext)
-    const { isLoading, setIsLoading } = useContext(LoadingContext)
+    const { showModal, setShowModal, setIsLoading } = useContext(MainContext)
 
     const { error } = useRouter().query
 

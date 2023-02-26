@@ -1,17 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import HomeIcon from '@mui/icons-material/Home'
-import TwitterIcon from '@mui/icons-material/Twitter'
-import FacebookIcon from '@mui/icons-material/Facebook'
-import InstagramIcon from '@mui/icons-material/Instagram'
-import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
-import ButtonField from '../../forms/ButtonField'
 // Import react scroll
 import { Link as LinkScroll } from "react-scroll"
 import Home from '@mui/icons-material/Home'
@@ -31,17 +24,11 @@ const Navbar = () => {
 
   const [menuToggle, setMenuToggle] = useState(true)
   const [activeLink, setActiveLink] = useState(null)
-  const [activeScroll, setActiveScroll] = useState(false)
   const [loading, setLoading] = useState(true) 
 
   const [userName, setUserName] = useState('')
   const [isAdmin, setIsAdmin] = useState(null)
 
-  // useEffect(() => {
-  //   window.addEventListener("scroll", () => {
-  //       setActiveScroll(window.scrollY > 20)
-  //   })
-  // }, [])
 
   useEffect(() => {
     if(router.asPath === '/'){
@@ -94,9 +81,6 @@ const Navbar = () => {
         </div>
 
         <div className='hidden sm:flex sm:flex-row items-center justify-between'>
-          {/* <div className='hidden sm:flex sm:flex-row sm:items-baseline'>
-            <Link href="https://www.maryoctav.com" target="_blank">Octav</Link>
-          </div> */}
           <div className='w-full flex flew-row justify-between'>
             <div className='sm:flex sm:flex-row md:space-x-4'>
               <LinkScroll 

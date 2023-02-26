@@ -6,16 +6,13 @@ import { getSession, signIn } from 'next-auth/react'
 import Preloader from '../../components/Preloader'
 
 // context
-import { NotificationsContext } from '../../contexts/NotificationsContext'
-import { LoadingContext } from '../../contexts/LoadingContext'
+import { MainContext } from '../../contexts/MainContext'
 
 const MembersHome = () => {
     // initiate context
-    const { setNotification, setShowNotification } = useContext(NotificationsContext)
-    const { isLoading, setIsLoading } = useContext(LoadingContext)
+    const { setNotification, setShowNotification } = useContext(MainContext)
 
     const router = useRouter()
-    const [showDashboard, setShowDashboard] = useState(false)
 
     // check session and redirect to sign in if not
     useEffect(() => {
@@ -24,7 +21,6 @@ const MembersHome = () => {
             if(!session){
                 signIn()
             }else{
-                setShowDashboard(true)
                 // check if the current logged in user has a subscription plan (subscribed)
                 // retrieve from session user object from next-auth
                 const userId = session.user[0]

@@ -11,12 +11,12 @@ import Preloader from '../Preloader'
 const ForgotPassword = ({ csrfToken }) => {
 
     const {
-        setShowModal
+        setShowModal, setNotification, setShowNotification
     } = useContext(MainContext)
 
-    const {
-        setNotification, setShowNotification
-    } = useContext(NotificationsContext)
+    // const {
+    //     setNotification, setShowNotification
+    // } = useContext(NotificationsContext)
 
     const [forgotPassLoad, setForgotPassLoad] = useState(false)
     const [email, setEmail] = useState('')

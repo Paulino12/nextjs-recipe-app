@@ -11,7 +11,6 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import SaveIcon from '@mui/icons-material/Save'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { MainContext } from '../../contexts/MainContext'
-import { NotificationsContext } from '../../contexts/NotificationsContext'
 import Preloader from '../Preloader'
 import ForgotPassword from '../auth/ForgotPassword'
 import useDate from '../../customs hooks/useDate'
@@ -21,12 +20,9 @@ const Profile = ({ csrfToken }) => {
     const router = useRouter()
 
     const {
-        setNotification, setShowNotification
-    } = useContext(NotificationsContext)
-
-    const {
         setNewFullname,
-        showModal, setShowModal
+        showModal, setShowModal,
+        setNotification, setShowNotification
     } = useContext(MainContext)
 
     const formatDate = useDate()

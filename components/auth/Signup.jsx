@@ -15,9 +15,10 @@ import { NotificationsContext } from '../../contexts/NotificationsContext'
 const Signup = () => {
 
   // initiate context
-  const { setShowSignUpForm, setShowSignInForm } = useContext(MainContext)
-  const { setNotification, setShowNotification } = useContext(NotificationsContext)
-  const { isLoading, setIsLoading } = useContext(LoadingContext)
+  const { 
+    setNotification, setShowNotification,
+    isLoading, setIsLoading
+   } = useContext(MainContext)
 
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')

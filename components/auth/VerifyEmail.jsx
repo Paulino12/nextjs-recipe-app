@@ -4,14 +4,14 @@ import { AnimatePresence } from 'framer-motion'
 import axios from 'axios'
 import ButtonField from '../forms/ButtonField'
 import Input from '../forms/Input'
-import { NotificationsContext } from '../../contexts/NotificationsContext'
+import { MainContext } from '../../contexts/MainContext'
 import Preloader from '../Preloader'
 
 const VerifyEmail = ({ emailVerificationToken, csrfToken }) => {
 
     const {
         setNotification, setShowNotification
-    } = useContext(NotificationsContext)
+    } = useContext(MainContext)
 
     const [loadVerifyEmail, setLoadVerifyEmail] = useState(true)
     const [isVerified, setIsVerified] = useState(false)

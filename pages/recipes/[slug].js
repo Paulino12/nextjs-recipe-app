@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import Image from 'next/image'
 import { AnimatePresence } from 'framer-motion'
 import { getSession, signIn } from 'next-auth/react'
@@ -12,7 +12,7 @@ import {
  import Preloader from '../../components/Preloader'
 
 //  context
-import { LoadingContext } from '../../contexts/LoadingContext'
+import { MainContext } from '../../contexts/MainContext'
  
 
 const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
@@ -40,7 +40,7 @@ const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
 
 const OneRecipe = ({ data, preview }) => {
     // initiate context
-    const { noSessionLoading, setNoSessionLoading } = useContext(LoadingContext)
+    const { noSessionLoading, setNoSessionLoading } = useContext(MainContext)
 
     const { data: recipe } = usePreviewSubscription(recipeQuery, {
         params: { slug: data.recipe?.slug.current },
@@ -62,18 +62,6 @@ const OneRecipe = ({ data, preview }) => {
         // Line below removes useeffect warning about adding dependency
         // eslint-disable-next-line
     }, [])
-
-    // const [likes, setLikes] = useState(data?.recipe?.likes)
-    // const addLike = async () => {
-    //     const res = await fetch('/api/handleLikes', {
-    //         method: "POST",
-    //         body: JSON.stringify({ _id: recipe._id })
-    //     })
-    //     .catch((error) => { console.log(error) })
-
-    //     const data = await res.json()
-    //     setLikes(data.likes)
-    // }
 
     // Nutritionals component
     const Nutritionals = ({ name, percentage, value }) => {
@@ -124,6 +112,12 @@ const OneRecipe = ({ data, preview }) => {
             default:
                 break;
         }
+    }
+
+    // format ingredients group title
+    const ingredientGroupTitle = (title) => {
+        // first 3 characters of the string
+        if(title.toLowerCase().substring(0,3) !== "for") return true
     }
 
     return (
@@ -219,12 +213,12 @@ const OneRecipe = ({ data, preview }) => {
                             {
                                 data?.recipe.ingredients?.map((ingredient, index) => (
                                     <div key={index} className='flex flex-row align-baseline'>
-                                        {ingredient.toLowerCase().substring(0,3) !== "for" && (
+                                        {ingredientGroupTitle(ingredient) && (
                                             <span className='mr-1'>
                                                 <CheckIcon fontSize='sm' color='success' />
                                             </span>
                                         ) }
-                                        <div>
+                                        <div className={`${!ingredientGroupTitle(ingredient) && "underline"}`}>
                                             {ingredient}
                                         </div>
                                     </div>

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
-import { NotificationsContext } from '../contexts/NotificationsContext'
+import { MainContext } from '../contexts/MainContext'
 
 function Notification() {
 
     // Initiate notification context
     const {
         notification, setShowNotification
-    } = useContext(NotificationsContext)
+    } = useContext(MainContext)
 
     useEffect(() => {
         setTimeout(() => {

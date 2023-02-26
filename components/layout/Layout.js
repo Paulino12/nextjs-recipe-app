@@ -3,24 +3,19 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import Head from 'next/head'
 import Navbar from './nav/Navbar'
-import Signup from '../auth/Signup'
-import Signin from '../auth/Signin'
 import Notification from "../Notification"
 // cookie consent
 import CookieConsent from "react-cookie-consent"
 
 // context import
 import { MainContext } from '../../contexts/MainContext'
-import { NotificationsContext } from '../../contexts/NotificationsContext'
 import Pricing from '../Pricing'
 
 const Layout = ({ children }) => {
 
   // context
-  const {
-    showSignUpForm, showSignInForm,
-  } = useContext(MainContext)
-  const { showNotification, showPricing } = useContext(NotificationsContext)
+  const { showNotification, showPricing } = useContext(MainContext)
+  
   return (
     <div>
       <Head>

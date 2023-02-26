@@ -3,14 +3,15 @@ import axios from 'axios'
 import { AnimatePresence } from 'framer-motion'
 import { getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { LoadingContext } from '../../../contexts/LoadingContext'
-import { NotificationsContext } from '../../../contexts/NotificationsContext'
+import { MainContext } from '../../../contexts/MainContext'
 import Preloader from '../../Preloader'
  
 const ProductsPrices = () => {
   // initiate context
-  const { setNotification, setShowNotification } = useContext(NotificationsContext)
-  const { isLoading, setIsLoading } = useContext(LoadingContext)
+  const { 
+    isLoading, setIsLoading,
+    setNotification, setShowNotification
+   } = useContext(MainContext)
 
   const router = useRouter()
 

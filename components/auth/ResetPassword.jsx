@@ -5,7 +5,6 @@ import Input from '../forms/Input'
 import ButtonField from '../forms/ButtonField'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { MainContext } from '../../contexts/MainContext'
 import Preloader from '../Preloader'
 
 const ResetPassword = ({ csrfToken, resetpasswordtoken}) => {

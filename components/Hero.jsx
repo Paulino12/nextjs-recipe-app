@@ -10,7 +10,6 @@ import { getSession } from 'next-auth/react'
 
 // context
 import { MainContext } from '../contexts/MainContext'
-import zIndex from '@mui/material/styles/zIndex'
 
 const Hero = () => {
 

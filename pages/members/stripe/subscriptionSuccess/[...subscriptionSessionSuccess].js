@@ -2,11 +2,11 @@ import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { LoadingContext } from '../../../../contexts/LoadingContext'
+import { MainContext } from '../../../../contexts/MainContext'
 
 const SubscriptionSessionSuccess = () => {
     // initiate context
-    const { setIsLoading } = useContext(LoadingContext)
+    const { setIsLoading } = useContext(MainContext)
     
     const router = useRouter()
 

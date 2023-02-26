@@ -1,20 +1,20 @@
 import { useContext } from 'react'
 import { sanityClient } from '../lib/sanity'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 
 import Hero from "../components/Hero"
 import Recipes from "../components/Recipes"
 import Footer from "../components/layout/nav/Footer"
 import Preloader from '../components/Preloader'
 // context
-import { LoadingContext } from '../contexts/LoadingContext'
+import { MainContext } from '../contexts/MainContext'
 import Contact from '../components/Contact'
 
 
 
 export default function Home({ recipes }) {
   // initiate context
-  const { noSessionLoading, setNoSessionLoading } = useContext(LoadingContext)
+  const { noSessionLoading } = useContext(MainContext)
   
   return (
     <main className="h-screen relative">

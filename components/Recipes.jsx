@@ -19,7 +19,6 @@ import Pagination from '@mui/material/Pagination'
 
 // context
 import { MainContext } from '../contexts/MainContext'
-import { NotificationsContext } from '../contexts/NotificationsContext'
 
 
 const Recipes = ({ recipes }) => {
@@ -27,12 +26,11 @@ const Recipes = ({ recipes }) => {
   const router = useRouter()
 
   // initiate context
-  const { inSession, setInSession } = useContext(MainContext)
   const { 
-    setNotification,
-    setShowNotification,
+    inSession, setInSession,
+    setNotification, setShowNotification,
     setShowPricing
-   } = useContext(NotificationsContext)
+   } = useContext(MainContext)
 
   const [recipeId, setRecipeId] = useState(null)
   const [recipe, setRecipe] = useState('')
@@ -195,10 +193,8 @@ const Recipes = ({ recipes }) => {
           handleChange={(e) => setRecipeCategory(e.target.value)}
           className="w-full capitalize"
           optionNumbers={optionsCategoryNumbers}
-          // options={optionsCategoryNumbers}
           options={[`All (${recipes.length})`, ...optionsCategory]}
-          // options={[`All (${recipes.length})`, 'starter', 'dessert', 'main course', 'side dish', 'bowl food', 'canapes', 'event', 'buffet', 'salad', 'pastry/baking', 'soup']}
-           />
+          />
         </div>
         <div className='flex flex-col w-full md:w-2/3'>
           <Label labelFor="recipe" text="Recipe" />

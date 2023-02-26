@@ -27,7 +27,9 @@ export default {
             validation: Rule => Rule.required(),
             type: 'string',
             options: {
-                list: ['starter', 'dessert', 'main course', 'side dish', 'bowl food', 'canapes', 'event', 'buffet', 'salad', 'pastry/baking', 'soup']
+                list: ['starters', 'desserts', 'main courses', 
+                'side dishes', 'bowl food', 'canapes', 'events', 
+                'buffet', 'salads', 'pastry/baking', 'soups', 'sandwiches', 'breakfast']
             }
         },
         {

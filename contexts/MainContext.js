@@ -17,11 +17,31 @@ export const MainContextProvider = ({ children }) => {
     // Profile
     const [newFullname, setNewFullname] = useState('')
 
+    // Notifications
+    const [notification, setNotification] = useState('')
+    const [showNotification, setShowNotification] = useState(false)
+    const [showPricing, setShowPricing] = useState(false)
+
+    // loading
+    const [isLoading, setIsLoading ] = useState(false)
+    const [noSessionLoading, setNoSessionLoading] = useState(false)
+
+    // recipes
+    const [sanityRecipes, setSanityRecipes] = useState({})
+    const [showSearch, setShowSearch] = useState(false)
+
     return <MainContext.Provider value={{
         inSession, setInSession,
         subscriptionPlan, setSubscriptionPlan,
         showModal, setShowModal,
-        newFullname, setNewFullname
+        newFullname, setNewFullname,
+        notification, setNotification,
+        showNotification, setShowNotification,
+        showPricing, setShowPricing,
+        isLoading, setIsLoading,
+        noSessionLoading, setNoSessionLoading,
+        sanityRecipes, setSanityRecipes,
+        showSearch, setShowSearch
     }}>
         { children }
     </MainContext.Provider>
