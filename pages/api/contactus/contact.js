@@ -23,8 +23,8 @@ async function handler(req, res) {
                 },
             });
             const mailList = [email, 'paulino@maryoctav.com']
-            mailList.forEach(async (mail) => {
-                await transport.sendMail({
+            mailList.forEach((mail) => {
+                transport.sendMail({
                     from: process.env.SMTP_USER,
                     to: mail,
                     subject: `${fullname}, You contacted MaryOctav Ltd`,
