@@ -14,18 +14,18 @@ async function handler(req, res) {
             // send email
             // create reusable transporter object using the default SMTP transport
             let transport = nodemailer.createTransport({
-                host: "smtp.stackmail.com",
-                port: 465,
-                secure: true, // true for 465, false for other ports
+                host: process.env.SMTP_HOST,
+                port: process.env.SMTP_PORT,
+                secure: process.env.SMTP_SECURE, // true for 465, false for other ports
                 auth: {
-                    user: "contact@maryoctav.com", 
-                    pass: "Magniaga12,",
+                    user: process.env.SMTP_USER, 
+                    pass: process.env.SMTP_PASS,
                 },
             });
             const mailList = [email, 'paulino@maryoctav.com']
             mailList.forEach(async (mail) => {
                 await transport.sendMail({
-                    from: "contact@maryoctav.com",
+                    from: process.env.SMTP_USER,
                     to: mail,
                     subject: `${fullname}, You contacted MaryOctav Ltd`,
                     text: "You contacted MaryOctav Ltd", // plain text body

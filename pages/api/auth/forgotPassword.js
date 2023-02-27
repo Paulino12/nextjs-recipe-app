@@ -29,7 +29,7 @@ async function handler(req, res) {
                 });
                 // send mail with defined transport object
                 await transport.sendMail({
-                    from: "contact@maryoctav.com",
+                    from: process.env.SMTP_USER,
                     to: email,
                     subject: `Reset Password`,
                     text: "Verify Email", // plain text body

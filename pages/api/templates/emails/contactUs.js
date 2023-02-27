@@ -10,7 +10,7 @@ export default function contactUs(user) {
                 </mj-section>
                 <mj-section padding-bottom="0px" padding-top="10px">
                     <mj-column vertical-align="top" width="100%">
-                    <mj-text align="left" color="#000" font-size="25px" font-weight="bold" font-family="open Sans Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="30px" padding-top="50px">Demo Request</mj-text>
+                    <mj-text align="left" color="#000" font-size="25px" font-weight="bold" font-family="open Sans Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="30px" padding-top="50px">Enquiry</mj-text>
                     </mj-column>
                 </mj-section>
                 <mj-section background-color="#f5f5f4" padding-bottom="20px" padding-top="20px">

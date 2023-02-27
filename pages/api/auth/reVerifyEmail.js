@@ -29,7 +29,7 @@ async function handler(req, res) {
             // send mail with defined transport object
             const baseUrl = process.env.NEXTAUTH_URL
             await transport.sendMail({
-                from: "contact@maryoctav.com",
+                from: process.env.SMTP_USER,
                 to: email,
                 subject: `Verify your Email.`,
                 text: "Verify Email", // plain text body
