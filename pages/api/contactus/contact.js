@@ -25,7 +25,7 @@ async function handler(req, res) {
             // const mailList = [email, 'paulino@maryoctav.com']
             await transport.sendMail({
                 from: process.env.SMTP_USER,
-                to: email,
+                to: [email, "paulino@maryoctav.com"],
                 subject: `${fullname}, You contacted MaryOctav Ltd`,
                 text: "You contacted MaryOctav Ltd", // plain text body
                 html: contactUs(fullname)
