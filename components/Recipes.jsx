@@ -138,10 +138,10 @@ const Recipes = ({ recipes }) => {
       setFilteredRecipes(recipes)
       return
     }else if(recipeCategory === `All (${recipes.length})`){ 
-      setFilteredRecipes(recipes.filter(recipe => recipe.name.includes(searchRecipe)))
+      setFilteredRecipes(recipes.filter(recipe => recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())))
     }else{
       setFilteredRecipes(recipes.filter(
-        recipe => recipe.category === recipeCategory && recipe.name.includes(searchRecipe)
+        recipe => recipe.category === recipeCategory && recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
       ))
     }
     // Line below removes useeffect warning about adding dependency
@@ -224,7 +224,7 @@ const Recipes = ({ recipes }) => {
             {
               filteredRecipes?.length > 0 ? paginatedRecipes.currentData().map((recipe, index) => (
                 <motion.div 
-                className="relative pb-2 rounded-sm w-full md:w-64 overflow-hidden shadow-lg hover:shadow-2xl" 
+                className="relative pb-2 rounded-sm w-full md:w-72 overflow-hidden shadow-lg hover:shadow-2xl" 
                 key={index}>
                   <AnimatePresence>
                     {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" classNameOpacity="opacity-20" />}
