@@ -246,7 +246,7 @@ const Recipes = ({ recipes }) => {
                       <span className='flex items-center justify-center ml-2 bg-yellow-400 rounded-full px-2 font-semibold mr-1'>{recipe.dietary}</span>
                     </p>
                     <span className='absolute rounded-2xl bg-yellow-400 opacity-80 font-bold top-1 left-1 
-                    w-24 px-2 py-2 text-sm flex flex-row justify-center space-x-1 recipe-card-time'>
+                    w-28 px-2 py-2 text-sm flex flex-row justify-start space-x-1 recipe-card-time'>
                       <AccessTimeIcon fontSize='small' /> 
                       <small>{`${recipe.time?.timeFrame} ${recipe.time?.timeUnit}`}</small>
                     </span>                    

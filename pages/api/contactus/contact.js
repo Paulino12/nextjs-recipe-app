@@ -30,15 +30,6 @@ async function handler(req, res) {
                 text: "You contacted MaryOctav Ltd", // plain text body
                 html: contactUs(fullname)
             })
-            // mailList.forEach(async (mail) => {
-            //     await transport.sendMail({
-            //         from: process.env.SMTP_USER,
-            //         to: mail,
-            //         subject: `${fullname}, You contacted MaryOctav Ltd`,
-            //         text: "You contacted MaryOctav Ltd", // plain text body
-            //         html: contactUs(fullname)
-            //     })
-            // });
             // send mail with defined transport object
             
             res.status(200).json(`Many thanks for your request, we will be in touch soon...`)

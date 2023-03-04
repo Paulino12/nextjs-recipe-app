@@ -66,7 +66,7 @@ export default {
                 {
                     title: 'Time Frame',
                     name: 'timeFrame',
-                    type: 'number'
+                    type: 'string'
                 },
                 {
                     title: 'Time unit',
