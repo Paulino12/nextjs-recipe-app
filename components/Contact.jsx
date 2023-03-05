@@ -58,7 +58,10 @@ function Contact({ csrfToken }) {
             setContactMessage('')
             setIsLoadingContact(false)
         })
-        .catch((error) => { console.log(error) })
+        .catch((error) => { 
+            console.log(error)
+            setIsLoadingContact(false)
+         })
     }
 
     return (

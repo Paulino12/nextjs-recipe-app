@@ -1,4 +1,4 @@
-import { Analytics } from '@vercel/analytics/react'
+// import { Analytics } from '@vercel/analytics/react'
 import { SessionProvider } from 'next-auth/react'
 import '../styles/globals.css'
 import Layout from '../components/layout/Layout'
@@ -27,7 +27,7 @@ function MyApp({
             key={router.route}
             >
               <Component {...pageProps} />
-              <Analytics />
+              {/* <Analytics /> */}
             </motion.div >
           </Layout>
         </MainContextProvider>

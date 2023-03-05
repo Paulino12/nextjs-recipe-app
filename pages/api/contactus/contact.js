@@ -22,7 +22,6 @@ async function handler(req, res) {
                     pass: process.env.SMTP_PASS,
                 },
             });
-            // const mailList = [email, 'paulino@maryoctav.com']
             await transport.sendMail({
                 from: process.env.SMTP_USER,
                 to: [email, "paulino@maryoctav.com"],
