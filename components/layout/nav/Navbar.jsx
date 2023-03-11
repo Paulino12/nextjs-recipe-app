@@ -4,10 +4,11 @@ import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import Home from '@mui/icons-material/Home'
 
 // Import react scroll
 import { Link as LinkScroll } from "react-scroll"
-import Home from '@mui/icons-material/Home'
+
 
 // context
 import { MainContext } from '../../../contexts/MainContext'
