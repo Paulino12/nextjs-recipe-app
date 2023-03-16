@@ -19,6 +19,8 @@ import Pagination from '@mui/material/Pagination'
 
 // context
 import { MainContext } from '../contexts/MainContext'
+import ImageSkeleton from './ImageSkeleton'
+import { Category } from '@mui/icons-material'
 
 
 const Recipes = ({ recipes }) => {
@@ -45,6 +47,8 @@ const Recipes = ({ recipes }) => {
   const [isLoading, setIsLoading] = useState(false)
   // dynamic key for smooth animation (framer-motion)
   const [animateKey, setAnimateKey] = useState(null) 
+  // skeleton
+  const [isLoadingImageSkeleton, setIsLoadingImageSkeleton] = useState(true)
 
   const searchRecipe = useDebounce(recipe, 500)
   const [filteredRecipes, setFilteredRecipes] = useState(recipes)
@@ -123,11 +127,14 @@ const Recipes = ({ recipes }) => {
     // reset pagination to page 1 and show data of page 1
     setPage(1)
     paginatedRecipes.jump(1)
+    
     // Line below removes useeffect warning about adding dependency
     // eslint-disable-next-line
   }, [filteredRecipes])
 
   const handlePaginationChange = (e, page) => {
+    // skeleton
+    setIsLoadingImageSkeleton(true)
     setAnimateKey(page)
     setPage(page)
     paginatedRecipes.jump(page)
@@ -150,12 +157,14 @@ const Recipes = ({ recipes }) => {
 
   useEffect(() => {
     setAnimateKey(recipeCategory)
+    setIsLoadingImageSkeleton(true)
     // Line below removes useeffect warning about adding dependency
     // eslint-disable-next-line
   }, [recipeCategory])
 
   useEffect(() => {
     setAnimateKey(searchRecipe)
+    setIsLoadingImageSkeleton(true)
     // Line below removes useeffect warning about adding dependency
     // eslint-disable-next-line
   }, [searchRecipe])
@@ -172,6 +181,13 @@ const Recipes = ({ recipes }) => {
     setRecipeId(id)
     setIsLoading(true)
   }
+
+  // setting skeleton
+  useEffect(() => {
+    setTimeout(() => {
+        setIsLoadingImageSkeleton(false)
+    }, 2000);
+  }, [page, animateKey])
 
   return (
     <section id='recipes' className='min-h-screen xl:px-20 py-16'>
@@ -257,15 +273,25 @@ const Recipes = ({ recipes }) => {
                   </Link>
                   {
                     !inSession && recipe.subscriber && (
-                      <div 
+                      <motion.div 
+                      initial={{ opacity: 0.3, zIndex: 10, backgroundColor: '#fff' }}
+                      animate={{ opacity: 0.7, zIndex: 10, backgroundColor: 'rgb(55, 65, 81)' }}
+                      // exit={{ opacity: 0 }}
+                      transition={{
+                          duration: 1,
+                          ease: "easeInOut"
+                      }}
                       onClick={() => setShowPricing(true)}
-                      className='absolute top-0 left-0 h-full w-full opacity-70 z-10 bg-gray-700 cursor-pointer'>
+                      className='absolute top-0 left-0 h-full w-full cursor-pointer'>
                         <span className='absolute rounded-full flex items-center justify-center p-1 bg-red-100 top-1 right-1'>
                           <LockIcon fontSize='extra-small' color='error' /> 
                         </span>
-                      </div>
+                      </motion.div>
                     )
                   }
+                  <AnimatePresence>
+                    {isLoadingImageSkeleton && <ImageSkeleton height="h-5/6" />}
+                  </AnimatePresence>
                 </motion.div>
               ))
               :

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Image from 'next/image'
 import { AnimatePresence } from 'framer-motion'
 import { getSession, signIn } from 'next-auth/react'
@@ -13,6 +13,7 @@ import {
 
 //  context
 import { MainContext } from '../../contexts/MainContext'
+import ImageSkeleton from '../../components/ImageSkeleton'
  
 
 const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
@@ -47,6 +48,9 @@ const OneRecipe = ({ data, preview }) => {
         initialData: data,
         enabled: preview
     })
+
+    // skeleton
+    const [isLoadingImageSkeleton, setIsLoadingImageSkeleton] = useState(true)
 
     // check session and redirect to sign in if not
     useEffect(() => {
@@ -120,6 +124,13 @@ const OneRecipe = ({ data, preview }) => {
         if(title.toLowerCase().substring(0,3) !== "for") return true
     }
 
+    // setting skeleton
+    useEffect(() => {
+        setTimeout(() => {
+            setIsLoadingImageSkeleton(false)
+        }, 2000);
+    }, [])
+
     return (
         <article className='min-h-screen bg-stone-100 xl:px-20 py-16 relative'>
             <AnimatePresence>
@@ -140,6 +151,9 @@ const OneRecipe = ({ data, preview }) => {
             <main>
                 <div className='flex flex-col md:flex-row w-full md:w-3/4 md:mx-auto'>
                     <div className='w-full h-48 md:h-auto px-3 md:px-0 md:w-1/4 flex items-center justify-center relative'>
+                        <AnimatePresence>
+                            {isLoadingImageSkeleton && <ImageSkeleton height="h-full" />}
+                        </AnimatePresence>
                         <Image
                         src={urlFor(data?.recipe?.image).url()} 
                         fill
@@ -249,7 +263,7 @@ export async function getStaticPaths() {
     )
     return {
         paths,
-        fallback: false,
+        fallback: false, 
     }
 }
 
