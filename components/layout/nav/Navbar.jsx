@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { motion } from 'framer-motion'
 import axios from 'axios'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
@@ -12,6 +13,7 @@ import { Link as LinkScroll } from "react-scroll"
 
 // context
 import { MainContext } from '../../../contexts/MainContext'
+import { Opacity } from '@mui/icons-material'
 
 const Navbar = () => {
 
@@ -66,7 +68,8 @@ const Navbar = () => {
   }, [router, newFullname])
 
   return (
-      <nav className={`fixed bg-gray-700 px-10 text-white w-full z-20`}>
+      <motion.nav 
+      className={`fixed bg-gray-700 px-10 text-white w-full z-20`}>
         <div className="inset-y-0 left-0 flex items-center sm:hidden w-1/4">
           <button type="button" 
           onClick={() => setMenuToggle(!menuToggle)}
@@ -186,7 +189,15 @@ const Navbar = () => {
         </div>
 
         {/* Mobile menu */}
-        <div className={`${menuToggle ? 'hidden':''} sm:hidden flex flex-col items-start`} id="mobile-menu">
+        <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          duration: 3,
+          ease: "easeInOut"
+        }}
+        className={`${menuToggle ? 'hidden':''} sm:hidden flex flex-col items-start mb-3`} id="mobile-menu">
           <div className="px- pt-2 pb-3 space-y-1 flex flex-col items-start">
             <LinkScroll 
             onClick={() => {
@@ -295,8 +306,8 @@ const Navbar = () => {
               </div>
             }
           </div>
-        </div>
-      </nav>
+        </motion.div>
+      </motion.nav>
   )
 }
 
