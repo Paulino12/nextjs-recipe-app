@@ -27,7 +27,7 @@ const MembersHome = () => {
                 axios.get(`/api/stripe/userSubscription/${userId}`)
                     .then((response) => {
                         console.log(`Adimin is ${response.data.userAdmin}`)
-                        if(!response.data.userSubscription && !response.data.userAdmin){
+                        if(!response.data.userSubscription){
                             // redirect to cintelProducts to choose plans (standard or premium)
                             router.push(`/members/stripe/cintelProducts`)
                         }else{
