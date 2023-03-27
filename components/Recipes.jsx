@@ -64,7 +64,7 @@ const Recipes = ({ recipes }) => {
         const userId = session.user[0]
         axios.get(`/api/stripe/userSubscription/${userId}`)
             .then((response) => {
-                if(!response.data.userSubscription){
+                if(!response.data.userSubscription && response.data.userAdmin !== true){
                     setNotification("Please subscribe to explore recipes or Sign out.")
                     setShowNotification(true)
                     // redirect to cintelProducts to choose plans (standard or premium)
