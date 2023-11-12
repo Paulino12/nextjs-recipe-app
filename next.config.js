@@ -4,7 +4,8 @@ const nextConfig = {
   swcMinify: true,
   images: {
 		domains: ['cdn.sanity.io'],
-	}
+    unoptimized: true
+	},
 }
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
