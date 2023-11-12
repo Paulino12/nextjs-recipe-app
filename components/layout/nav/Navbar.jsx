@@ -35,7 +35,7 @@ const Navbar = () => {
     if(router.asPath === '/'){
         setActiveLink('hero')
     }else if(router.asPath === '/#recipes'){
-        setActiveLink('recipes')
+        setActiveLink('recipes')  
     }else if(router.asPath === '/#contact'){
       setActiveLink('contact')
     }
