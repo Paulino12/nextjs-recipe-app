@@ -46,7 +46,14 @@ const recipeQuery = `*[_type == "recipes"]{
   nutritionals,
   nutritionalsPer100g,
   slug,
-  likes
+  likes,
+  "subRecipes": subRecipes[]{
+    portion,
+    name->{
+     name,
+     "slug": slug.current
+    }
+  }
 }`
 
 export async function getStaticProps() {

@@ -1,3 +1,4 @@
+
 export default {
     name: 'recipes',
     type: 'document',
@@ -189,6 +190,32 @@ export default {
             name: 'likes',
             title: 'Likes',
             type: 'number'
+        },
+        {
+            name: 'subRecipes',
+            title: 'Sub Recipes',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        {
+                            name: 'name',
+                            title: 'Name',
+                            type: 'reference',
+                            to: { type: 'recipes' }
+                            // options: {
+                            //     list: ["Energy", "Fat (g)", "Sat Fat (g)", "Sugar (g)", "Salt (g)"]
+                            // }
+                        },
+                        {
+                            name: 'portion',
+                            title: 'Portion(s)',
+                            type: 'string'
+                        }
+                    ]
+                }
+            ]
         }
     ],
     initialValue: {
