@@ -45,6 +45,7 @@ const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
         portion,
         name->{
          name,
+         subscriber,
          "slug": slug.current
         }
     }
@@ -52,7 +53,13 @@ const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
 
 const OneRecipe = ({ data, preview }) => {
     // initiate context
-    const { noSessionLoading, setNoSessionLoading } = useContext(MainContext)
+    const { 
+        noSessionLoading, 
+        setNoSessionLoading, 
+        inSession, 
+        setInSession,
+        setShowPricing
+     } = useContext(MainContext)
 
     const { data: recipe } = usePreviewSubscription(recipeQuery, {
         params: { slug: data.recipe?.slug.current },
@@ -67,16 +74,20 @@ const OneRecipe = ({ data, preview }) => {
     useEffect(() => {
         const access = async () => {
             const session = await getSession()
+            // check session first for subrecipes access
+            if(!session) { return setInSession(false)}
             // check session and user is a subscriber
             if(!session && data?.recipe.subscriber){
                 setNoSessionLoading(true)
                 return signIn()
+            }else{
+                setInSession(true)
             }
         }
         access()
         // Line below removes useeffect warning about adding dependency
         // eslint-disable-next-line
-        console.log(data?.recipe.subRecipes)
+        console.log(data?.recipe)
     }, [])
 
     // Nutritionals component
@@ -257,14 +268,15 @@ const OneRecipe = ({ data, preview }) => {
                                 }
                                 {
                                     data?.recipe?.subRecipes && (
-                                        <div>
+                                        <div id='notASubscriber'>
                                             <h1 className='recipe-inner-heading'>Sub-recipes:</h1>
                                             {
                                                 data?.recipe?.subRecipes?.map((subRecipe, index) => (
                                                     <Link 
+                                                    onClick={() => !inSession && subRecipe.name.subscriber && setShowPricing(true)}
                                                     key={index} 
-                                                    href={`/recipes/${subRecipe.name.slug}`} 
-                                                    className='flex flex-row align-baseline font-[500] cursor-pointer'>
+                                                    href={`${!inSession && subRecipe.name.subscriber ? '#notASubscriber' : `/recipes/${subRecipe.name.slug}`}`} 
+                                                    className={`${!inSession && subRecipe.name.subscriber ? 'text-gray-300' : ''} flex flex-row align-baseline font-[500] cursor-pointer`}>
                                                         {subRecipe.portion}ea {subRecipe.name.name}
                                                     </Link>
                                                 ))

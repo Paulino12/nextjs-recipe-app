@@ -5,13 +5,14 @@ import CircularProgress from '@mui/material/CircularProgress'
 function Preloader({ loadMessage, framerOpacity, classNameOpacity }) {
     return (
         <motion.div
+        initial={{ opacity: 0 }}
         animate={{ opacity: framerOpacity }}
         exit={{ opacity: 0 }}
         transition={{
             duration: 1,
             ease: "easeInOut"
           }}
-        className={`absolute rounded-md top-0 left-0 h-full w-full bg-white flex flex-col items-center justify-center text-amber-900 z-30 ${classNameOpacity}`}>
+        className={`absolute rounded-md top-0 left-0 h-full w-full bg-white flex flex-col items-center justify-center text-amber-900 z-30`}>
             <div>
                 <CircularProgress color='secondary' />
             </div>

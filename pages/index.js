@@ -51,6 +51,7 @@ const recipeQuery = `*[_type == "recipes"]{
     portion,
     name->{
      name,
+     subscriber,
      "slug": slug.current
     }
   }

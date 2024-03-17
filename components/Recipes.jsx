@@ -243,7 +243,7 @@ const Recipes = ({ recipes }) => {
                 className="relative pb-2 rounded-sm w-full md:w-72 overflow-hidden shadow-lg hover:shadow-2xl" 
                 key={index}>
                   <AnimatePresence>
-                    {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" classNameOpacity="opacity-20" />}
+                    {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" />}
                   </AnimatePresence>
                   <Link href={`/recipes/${recipe.slug.current}`}>
                     <div className='relative h-48 w-full mb-2'>
@@ -276,7 +276,6 @@ const Recipes = ({ recipes }) => {
                       <motion.div 
                       initial={{ opacity: 0.3, zIndex: 10, backgroundColor: '#fff' }}
                       animate={{ opacity: 0.7, zIndex: 10, backgroundColor: 'rgb(55, 65, 81)' }}
-                      // exit={{ opacity: 0 }}
                       transition={{
                           duration: 1,
                           ease: "easeInOut"
