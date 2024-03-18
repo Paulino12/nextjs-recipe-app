@@ -277,7 +277,7 @@ const OneRecipe = ({ data, preview }) => {
                                                     key={index} 
                                                     href={`${!inSession && subRecipe.name.subscriber ? '#notASubscriber' : `/recipes/${subRecipe.name.slug}`}`} 
                                                     className={`${!inSession && subRecipe.name.subscriber ? 'text-gray-300' : ''} flex flex-row align-baseline font-[500] cursor-pointer`}>
-                                                        {subRecipe.portion}ea {subRecipe.name.name}
+                                                        {subRecipe.portion} {subRecipe.name.name}
                                                     </Link>
                                                 ))
                                             }
