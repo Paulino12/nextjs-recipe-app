@@ -186,7 +186,7 @@ const Recipes = ({ recipes }) => {
   useEffect(() => {
     setTimeout(() => {
         setIsLoadingImageSkeleton(false)
-    }, 2000);
+    }, 1500);
   }, [page, animateKey])
 
   return (
@@ -236,7 +236,7 @@ const Recipes = ({ recipes }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className='flex flex-wrap gap-6 items-center justify-center'>
+          className='flex flex-wrap gap-4 items-center justify-center'>
             {
               filteredRecipes?.length > 0 ? paginatedRecipes.currentData().map((recipe, index) => (
                 <motion.div 
