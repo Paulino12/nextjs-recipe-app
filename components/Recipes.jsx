@@ -251,9 +251,9 @@ const Recipes = ({ recipes }) => {
                       onClick={() => loadRecipe(recipe._id)}
                       src={urlFor(recipe.image).url()} 
                       fill
-                      sizes='(max-width: 768px) 100vw,
-                      (max-width: 1200px) 50vw,
-                      30vw'
+                      // sizes='(max-width: 768px) 100vw,
+                      // (max-width: 1200px) 50vw,
+                      // 30vw'
                       style={{
                         objectFit: 'cover', objectPosition: 'center'
                       }}

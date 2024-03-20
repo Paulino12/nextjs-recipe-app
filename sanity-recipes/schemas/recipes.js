@@ -30,7 +30,7 @@ export default {
             options: {
                 list: ['starters', 'desserts', 'main courses', 
                 'side dishes', 'bowl food', 'canapes', 'events', 
-                'buffet', 'salads', 'pastry/baking', 'soups', 'sandwiches', 'breakfast', 'sauces', 'others']
+                'buffet', 'salads', 'pastry/baking', 'soups', 'sandwiches', 'breakfast', 'smoothies', 'sauces', 'others']
             }
         },
         {
