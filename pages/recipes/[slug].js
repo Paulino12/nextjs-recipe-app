@@ -357,5 +357,6 @@ export async function getStaticProps({ params }) {
       data: { recipe },
       preview: true,
     },
+    revalidate: 60,
   };
 }
