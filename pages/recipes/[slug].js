@@ -53,7 +53,7 @@ const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
     }
 }`;
 
-const OneRecipe = ({ data, preview }) => {
+const OneRecipe = ({ data, recipes, preview }) => {
   // initiate context
   const {
     noSessionLoading,
@@ -329,14 +329,20 @@ const OneRecipe = ({ data, preview }) => {
           </div>
         </div>
       </div>
-      {/* <div className="md:w-3/4 mx-auto mt-3">
-        <SimilarRecipes category={data?.recipe.category} />
-      </div> */}
+      <div className="md:w-3/4 mx-auto mt-3 text-center">
+      <h1 className="recipe-inner-heading mb-6">Similar Recipes in {recipe.category}</h1>
+        <SimilarRecipes recipes={recipes} currentRecipeName={data.recipe.name} inSession={inSession} />
+      </div>
     </article>
   );
 };
 
 export default OneRecipe;
+
+const recipeQueryCategory = `*[_type == "recipes" && category == "smoothies"] {
+  name
+}
+`;
 
 export async function getStaticPaths() {
   const paths = await sanityClient.fetch(
@@ -355,9 +361,20 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { slug } = params;
   const recipe = await sanityClient.fetch(recipeQuery, { slug });
+  const recipesCategory =
+    await sanityClient.fetch(`*[_type == "recipes" && category == "${recipe.category}"] {
+    name,
+    image,
+    time,
+    dietary,
+    slug,
+    subscriber
+  }
+  `);
   return {
     props: {
       data: { recipe },
+      recipes: recipesCategory,
       preview: true,
     },
   };
