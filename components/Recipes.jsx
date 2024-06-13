@@ -240,7 +240,7 @@ const Recipes = ({ recipes }) => {
             {
               filteredRecipes?.length > 0 ? paginatedRecipes.currentData().map((recipe, index) => (
                 <motion.div 
-                className="relative pb-2 rounded-sm w-full md:w-72 overflow-hidden shadow-lg hover:shadow-2xl" 
+                className="relative pb-2 w-full md:w-72 overflow-hidden shadow-lg hover:shadow-2xl" 
                 key={index}>
                   <AnimatePresence>
                     {(isLoading && recipeId === recipe._id) && <Preloader framerOpacity="0.5" />}

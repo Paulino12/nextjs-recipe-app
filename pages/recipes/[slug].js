@@ -20,6 +20,7 @@ import Preloader from "../../components/Preloader";
 //  context
 import { MainContext } from "../../contexts/MainContext";
 import ImageSkeleton from "../../components/ImageSkeleton";
+import SimilarRecipes from "../../components/SimilarRecipes";
 
 const recipeQuery = `*[_type == "recipes" && slug.current == $slug][0]{
     _id,
@@ -90,7 +91,6 @@ const OneRecipe = ({ data, preview }) => {
     access();
     // Line below removes useeffect warning about adding dependency
     // eslint-disable-next-line
-    console.log(data?.recipe);
   }, []);
 
   // Nutritionals component
@@ -192,7 +192,7 @@ const OneRecipe = ({ data, preview }) => {
                   objectPosition: "center",
                 }}
                 alt={data?.recipe.name}
-                className="px-3 md:px-0"
+                className="px-3 md:px-0 rounded-md shadow-lg"
               />
             </div>
             <div className="w-full px-3 md:px-8 md:w-3/4">
@@ -329,6 +329,9 @@ const OneRecipe = ({ data, preview }) => {
           </div>
         </div>
       </div>
+      {/* <div className="md:w-3/4 mx-auto mt-3">
+        <SimilarRecipes category={data?.recipe.category} />
+      </div> */}
     </article>
   );
 };
@@ -357,6 +360,5 @@ export async function getStaticProps({ params }) {
       data: { recipe },
       preview: true,
     },
-    revalidate: 60,
   };
 }
