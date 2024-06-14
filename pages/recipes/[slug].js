@@ -318,7 +318,7 @@ const OneRecipe = ({ data, recipes, preview }) => {
         </div>
       </div>
       <div className="md:w-3/4 mx-auto mt-3">
-        <div className="rounded-2xl w-1/4 flex flex-row items-center justify-center gap-3 font-bold px-3 py-1">
+        <div className="rounded-2xl w-full lg:w-1/4 flex flex-row items-center justify-center gap-3 font-bold px-3 py-1">
           {/* print */}
           <h1 className="">Print this recipe</h1>
           <div className="cursor-pointer hover:bg-yellow-400 hover:rounded-2xl px-1 py-1 transition-all">
@@ -329,7 +329,7 @@ const OneRecipe = ({ data, recipes, preview }) => {
           </div>
         </div>
       </div>
-      <div className="md:w-3/4 mx-auto mt-3 text-center">
+      <div className="p-3 md:p-0 md:w-3/4 mx-auto mt-3 text-center">
       <h1 className="recipe-inner-heading mb-6">Similar Recipes in {recipe.category}</h1>
         <SimilarRecipes recipes={recipes} currentRecipeName={data.recipe.name} inSession={inSession} />
       </div>
