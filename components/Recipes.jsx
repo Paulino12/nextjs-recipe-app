@@ -52,7 +52,6 @@ const Recipes = ({ recipes }) => {
 
   const searchRecipe = useDebounce(recipe, 500)
   const [filteredRecipes, setFilteredRecipes] = useState(recipes)
-
   // checking session
   useEffect(() => {
     const access = async () => {
