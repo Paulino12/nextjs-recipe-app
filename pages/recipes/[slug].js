@@ -180,7 +180,7 @@ const OneRecipe = ({ data, recipes, preview }) => {
         </div>
         <div>
           <div className="flex flex-col md:flex-row w-full md:w-3/4 md:mx-auto">
-            <div className="w-full h-48 md:h-auto px-3 md:px-0 md:w-1/4 flex items-center justify-center relative">
+            <div className="w-1/2 mx-auto h-48 md:h-auto px-3 md:px-0 md:w-1/4 flex items-center justify-center relative">
               <AnimatePresence>
                 {isLoadingImageSkeleton && <ImageSkeleton height="h-full" />}
               </AnimatePresence>
@@ -192,7 +192,7 @@ const OneRecipe = ({ data, recipes, preview }) => {
                   objectPosition: "center",
                 }}
                 alt={data?.recipe.name}
-                className="px-3 md:px-0 rounded-md shadow-lg"
+                className="md:px-0 rounded-md shadow-lg"
               />
             </div>
             <div className="w-full px-3 md:px-8 md:w-3/4">
