@@ -42,7 +42,6 @@ const Recipes = ({ recipes }) => {
   const [optionsCategory, setOptionsCategory] = useState([])
   // identifying how many distinct categories exists and show with options in select tag
   const [optionsCategoryNumbers, setOptionsCategoryNumbers] = useState({})
-
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   // dynamic key for smooth animation (framer-motion)
